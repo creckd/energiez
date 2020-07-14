@@ -11,8 +11,12 @@ class CDPRCameraController : public FrameListener, public OgreBites::InputListen
 public:
 	void Initialize();
 	void Update(const FrameEvent& evt);
-	bool mouseMoved(const OgreBites::MouseMotionEvent& evt) override;
+	void MouseInput(float x, float y);
 	bool frameStarted(const FrameEvent& evt) override;
+	bool keyPressed(const OgreBites::KeyboardEvent& evt) override;
+	bool keyReleased(const OgreBites::KeyboardEvent& evt) override;
+	
+	Vector3 GetEulerOrientation();
 
 private:
 	Camera* _mainCamera = nullptr;
@@ -21,4 +25,13 @@ private:
 	SceneNode* _cameraPitchNode = nullptr;
 	SceneNode* _cameraRollNode = nullptr;
 	
+	Vector3 _translateVector = Vector3::ZERO;
+};
+
+enum
+{
+	KEYCODE_W = 119,
+	KEYCODE_A = 97,
+	KEYCODE_S = 115,
+	KEYCODE_D = 100
 };

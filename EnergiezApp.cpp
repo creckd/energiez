@@ -18,8 +18,8 @@ void EnergiezApp::setup()
 	OgreBites::ApplicationContext::setup();
 
 	addInputListener(this);
-
 	Ogre::Root* root = getRoot();
+
 	_mainSceneManager = root->createSceneManager();
 
 	_mainSceneManager->setSkyDome(true, "Examples/CloudySky", 5, 8);
@@ -33,6 +33,8 @@ void EnergiezApp::setup()
 	_cameraController = new CDPRCameraController();
 	_cameraController->Initialize();
 	addInputListener(_cameraController);
+	
+	getRoot()->addFrameListener(_cameraController);
 	
 	//Ogre::SceneNode* camNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode();
 	//camNode->setPosition(200, 300, 400);
@@ -77,17 +79,20 @@ void EnergiezApp::setup()
 	directionalLightNode->setDirection(0, -1, 1);
 }
 
-bool EnergiezApp::frameStarted(const Ogre::FrameEvent& evt)
-{
-	_ninjaNode->translate(Vector3(0.0f, evt.timeSinceLastFrame, 0.0f));
-	return true;
-}
-
 bool EnergiezApp::keyPressed(const OgreBites::KeyboardEvent& evt)
 {
 	if (evt.keysym.sym == OgreBites::SDLK_ESCAPE)
 	{
 		getRoot()->queueEndRendering();
+		return true;
 	}
+	return false;
+}
+
+bool EnergiezApp::mouseMoved(const OgreBites::MouseMotionEvent& evt)
+{
+	if (_cameraController != nullptr)
+		_cameraController->MouseInput(evt.xrel * -0.01f, evt.yrel * -0.01f);
+
 	return true;
 }

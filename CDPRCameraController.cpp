@@ -22,26 +22,77 @@ void CDPRCameraController::Initialize()
 	Viewport* vp = EnergiezApp::GetSingletonPtr()->getRenderWindow()->addViewport(_mainCamera);
 }
 
-bool CDPRCameraController::mouseMoved(const OgreBites::MouseMotionEvent& evt)
+void CDPRCameraController::Update(const FrameEvent& evt)
 {
-	float pitchAngle;
-	float pitchAngleSign;
+	_cameraYawNode->yaw(Radian(evt.timeSinceLastFrame));
+}
 
-	_cameraYawNode->yaw(Radian(1));
-	_cameraPitchNode->pitch(Radian(evt.yrel));
-
-	//_cameraNode->translate()
-	//
-	//this->cameraNode->translate(this->cameraYawNode->getOrientation() *
-	//	this->cameraPitchNode->getOrientation() *
-	//	this->mTranslateVector,
-	//	Ogre::SceneNode::TS_LOCAL);
-	return true;
+void CDPRCameraController::MouseInput(float x, float y)
+{
+	_cameraYawNode->yaw(Radian(x));
+	_cameraPitchNode->pitch(Radian(y));
 }
 
 bool CDPRCameraController::frameStarted(const FrameEvent& evt)
 {
-	_cameraYawNode->yaw(Radian(evt.timeSinceLastFrame));
-
+	// NOTE: We multiply the mTranslateVector by the cameraPitchNode's
+// orientation quaternion and the cameraYawNode's orientation
+// quaternion to translate the camera accoding to the camera's
+// orientation around the Y-axis and the X-axis.
+		_cameraNode->translate(_cameraYawNode->getOrientation() * _cameraPitchNode->getOrientation() * _translateVector,
+		Ogre::SceneNode::TS_LOCAL);
+	
 	return true;
+}
+
+bool CDPRCameraController::keyPressed(const OgreBites::KeyboardEvent& evt)
+{
+	switch (evt.keysym.sym)
+	{
+	case KEYCODE_W:
+		_translateVector.z = -1.0f;
+		break;
+	case KEYCODE_A:
+		_translateVector.x = -1.0f;
+		break;
+	case KEYCODE_S:
+		_translateVector.z = 1.0f;
+		break;
+	case KEYCODE_D:
+		_translateVector.x = 1.0f;
+		break;
+	}
+	
+	return false;
+}
+
+bool CDPRCameraController::keyReleased(const OgreBites::KeyboardEvent& evt)
+{
+	switch (evt.keysym.sym)
+	{
+	case KEYCODE_W:
+		_translateVector.z = 0.0f;
+		break;
+	case KEYCODE_A:
+		_translateVector.x = 0.0f;
+		break;
+	case KEYCODE_S:
+		_translateVector.z = 0.0f;
+		break;
+	case KEYCODE_D:
+		_translateVector.x = 0.0f;
+		break;
+	}
+
+
+	return false;
+}
+
+Vector3 CDPRCameraController::GetEulerOrientation()
+{
+	return Vector3(
+		Ogre::Math::Floor(2 * Ogre::Degree(Ogre::Math::ACos(this->_cameraYawNode->getOrientation().w)).valueDegrees()),
+		Ogre::Math::Floor(2 * Ogre::Degree(Ogre::Math::ACos(this->_cameraPitchNode->getOrientation().w)).valueDegrees()),
+		Ogre::Math::Floor(2 * Ogre::Degree(Ogre::Math::ACos(this->_cameraNode->getOrientation().w)).valueDegrees())
+	);
 }

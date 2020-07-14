@@ -8,16 +8,16 @@ class CDPRCameraController;
 
 using namespace Ogre;
 
-class EnergiezApp : public OgreBites::ApplicationContext, public OgreBites::InputListener, public FrameListener
+class EnergiezApp : public OgreBites::ApplicationContext, public OgreBites::InputListener
 {
 public:
 	static EnergiezApp* GetSingletonPtr();
 	
 	EnergiezApp();
-	
+
 	void setup();
 	bool keyPressed(const OgreBites::KeyboardEvent& evt);
-	bool frameStarted(const FrameEvent& evt) override;
+	bool mouseMoved(const OgreBites::MouseMotionEvent& evt) override;
 
 public:
 	SceneManager* _mainSceneManager = nullptr;
