@@ -18,6 +18,9 @@ public:
 	
 	Vector3 GetEulerOrientation();
 
+public:
+	float _cameraSpeed = 1.0f;
+
 private:
 	Camera* _mainCamera = nullptr;
 	SceneNode* _cameraNode = nullptr;

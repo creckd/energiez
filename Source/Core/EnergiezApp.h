@@ -5,6 +5,7 @@
 #include <OgreFrameListener.h>
 
 class CDPRCameraController;
+class CDPRWorld;
 
 using namespace Ogre;
 
@@ -22,9 +23,8 @@ public:
 public:
 	SceneManager* _mainSceneManager = nullptr;
 	CDPRCameraController* _cameraController = nullptr;
+	CDPRWorld* _world;
 	
 private:
 	static EnergiezApp* _instance;
-	
-	SceneNode* _ninjaNode;
 };

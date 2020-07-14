@@ -1,5 +1,5 @@
 #include "CDPRCameraController.h"
-#include "EnergiezApp.h"
+#include "Core/EnergiezApp.h"
 
 void CDPRCameraController::Initialize()
 {
@@ -35,12 +35,8 @@ void CDPRCameraController::MouseInput(float x, float y)
 
 bool CDPRCameraController::frameStarted(const FrameEvent& evt)
 {
-	// NOTE: We multiply the mTranslateVector by the cameraPitchNode's
-// orientation quaternion and the cameraYawNode's orientation
-// quaternion to translate the camera accoding to the camera's
-// orientation around the Y-axis and the X-axis.
-		_cameraNode->translate(_cameraYawNode->getOrientation() * _cameraPitchNode->getOrientation() * _translateVector,
-		Ogre::SceneNode::TS_LOCAL);
+	_cameraNode->translate(_cameraYawNode->getOrientation() * _cameraPitchNode->getOrientation() * _translateVector,
+	Ogre::SceneNode::TS_LOCAL);
 	
 	return true;
 }

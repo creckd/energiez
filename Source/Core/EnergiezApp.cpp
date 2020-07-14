@@ -1,5 +1,7 @@
 #include "EnergiezApp.h"
-#include "CDPRCameraController.h"
+
+#include "Camera/CDPRCameraController.h"
+#include "World/CDPRWorld.h"
 
 EnergiezApp *EnergiezApp::_instance = nullptr;
 
@@ -30,36 +32,21 @@ void EnergiezApp::setup()
 	Ogre::RTShader::ShaderGenerator* shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
 	shadergen->addSceneManager(_mainSceneManager);
 
+	// SETUP CAMERA
 	_cameraController = new CDPRCameraController();
 	_cameraController->Initialize();
 	addInputListener(_cameraController);
-	
 	getRoot()->addFrameListener(_cameraController);
-	
-	//Ogre::SceneNode* camNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode();
-	//camNode->setPosition(200, 300, 400);
-	//camNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
 
-	//Ogre::Camera* cam = _mainSceneManager->createCamera("myCam");
-	//cam->setNearClipDistance(5); // specific to this sample
-	//cam->setAutoAspectRatio(true);
-	//camNode->attachObject(cam);
-
-	//Viewport* vp = getRenderWindow()->addViewport(cam);
-
-	Entity* ninjaEntity = _mainSceneManager->createEntity("Cube.mesh");
-	ninjaEntity->setMaterialName("danidiffuse");
-	ninjaEntity->setCastShadows(true);
-
-	_ninjaNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode();
-	_ninjaNode->attachObject(ninjaEntity);
-	_ninjaNode->setScale(Vector3(50, 50, 50));
+	// SETUP WORLD
+	_world = new CDPRWorld();
+	_world->CreateWorld();
 
 	Plane plane(Vector3::UNIT_Y, 0);
 	MeshManager::getSingleton().createPlane(
 		"ground", RGN_DEFAULT,
 		plane,
-		1500, 1500, 20, 20,
+		150, 150, 20, 20,
 		true,
 		1, 5, 5,
 		Vector3::UNIT_Z);

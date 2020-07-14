@@ -83,7 +83,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -130,7 +130,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -177,7 +177,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -224,7 +224,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -325,13 +325,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CDPRCameraController.cpp" />
-    <ClCompile Include="EnergiezApp.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Source\Camera\CDPRCameraController.cpp" />
+    <ClCompile Include="Source\Core\EnergiezApp.cpp" />
+    <ClCompile Include="Source\Core\Main.cpp" />
+    <ClCompile Include="Source\World\CDPRWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CDPRCameraController.h" />
-    <ClInclude Include="EnergiezApp.h" />
+    <ClInclude Include="Source\Camera\CDPRCameraController.h" />
+    <ClInclude Include="Source\Core\EnergiezApp.h" />
+    <ClInclude Include="Source\World\CDPRWorld.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
