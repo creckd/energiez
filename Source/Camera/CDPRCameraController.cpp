@@ -6,7 +6,7 @@ void CDPRCameraController::Initialize()
 	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
 	
 	_cameraNode = sceneManager->getRootSceneNode()->createChildSceneNode("MainCameraNode");
-	_cameraNode->setPosition(200, 300, 400);
+	_cameraNode->setPosition(0, 0, 0);
 
 	_cameraYawNode = _cameraNode->createChildSceneNode("MainCameraYaw");
 	_cameraPitchNode = _cameraYawNode->createChildSceneNode("MainCameraPitch");
