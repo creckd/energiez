@@ -7,6 +7,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CDPRCameraController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\Dendeguz\Downloads\ogre-1.12.7\ogre-1.12.7\Samples\EmptyVSProject\CMakeLists.txt" />
@@ -18,6 +21,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EnergiezApp.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CDPRCameraController.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

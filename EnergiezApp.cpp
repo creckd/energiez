@@ -1,7 +1,16 @@
 #include "EnergiezApp.h"
+#include "CDPRCameraController.h"
+
+EnergiezApp *EnergiezApp::_instance = nullptr;
 
 EnergiezApp::EnergiezApp() : OgreBites::ApplicationContext("Energiez")
 {
+	_instance = this;
+}
+
+EnergiezApp* EnergiezApp::GetSingletonPtr()
+{
+	return _instance;
 }
 
 void EnergiezApp::setup()
@@ -11,32 +20,36 @@ void EnergiezApp::setup()
 	addInputListener(this);
 
 	Ogre::Root* root = getRoot();
-	Ogre::SceneManager* scnMgr = root->createSceneManager();
+	_mainSceneManager = root->createSceneManager();
 
-	scnMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
+	_mainSceneManager->setSkyDome(true, "Examples/CloudySky", 5, 8);
 
-	scnMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
-	scnMgr->setShadowTechnique(ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
+	_mainSceneManager->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
+	_mainSceneManager->setShadowTechnique(ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	Ogre::RTShader::ShaderGenerator* shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
-	shadergen->addSceneManager(scnMgr);
+	shadergen->addSceneManager(_mainSceneManager);
 
-	Ogre::SceneNode* camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
-	camNode->setPosition(200, 300, 400);
-	camNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
+	_cameraController = new CDPRCameraController();
+	_cameraController->Initialize();
+	addInputListener(_cameraController);
+	
+	//Ogre::SceneNode* camNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode();
+	//camNode->setPosition(200, 300, 400);
+	//camNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
 
-	Ogre::Camera* cam = scnMgr->createCamera("myCam");
-	cam->setNearClipDistance(5); // specific to this sample
-	cam->setAutoAspectRatio(true);
-	camNode->attachObject(cam);
+	//Ogre::Camera* cam = _mainSceneManager->createCamera("myCam");
+	//cam->setNearClipDistance(5); // specific to this sample
+	//cam->setAutoAspectRatio(true);
+	//camNode->attachObject(cam);
 
-	Viewport* vp = getRenderWindow()->addViewport(cam);
+	//Viewport* vp = getRenderWindow()->addViewport(cam);
 
-	Entity* ninjaEntity = scnMgr->createEntity("Cube.mesh");
+	Entity* ninjaEntity = _mainSceneManager->createEntity("Cube.mesh");
 	ninjaEntity->setMaterialName("danidiffuse");
 	ninjaEntity->setCastShadows(true);
 
-	_ninjaNode = scnMgr->getRootSceneNode()->createChildSceneNode();
+	_ninjaNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode();
 	_ninjaNode->attachObject(ninjaEntity);
 	_ninjaNode->setScale(Vector3(50, 50, 50));
 
@@ -49,17 +62,17 @@ void EnergiezApp::setup()
 		1, 5, 5,
 		Vector3::UNIT_Z);
 
-	Entity* groundEntity = scnMgr->createEntity("ground");
+	Entity* groundEntity = _mainSceneManager->createEntity("ground");
 	groundEntity->setCastShadows(false);
 	groundEntity->setMaterialName("Examples/Rockwall");
-	scnMgr->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);;
+	_mainSceneManager->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);;
 
-	Light* directionalLight = scnMgr->createLight("DirectionalLight");
+	Light* directionalLight = _mainSceneManager->createLight("DirectionalLight");
 	directionalLight->setType(Light::LT_DIRECTIONAL);
 	directionalLight->setDiffuseColour(1, 1, 1);
 	directionalLight->setSpecularColour(1, 1, 1);
 
-	SceneNode* directionalLightNode = scnMgr->getRootSceneNode()->createChildSceneNode();
+	SceneNode* directionalLightNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode();
 	directionalLightNode->attachObject(directionalLight);
 	directionalLightNode->setDirection(0, -1, 1);
 }
