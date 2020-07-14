@@ -10,7 +10,7 @@ class CDPRUIManager;
 
 using namespace Ogre;
 
-class EnergiezApp : public OgreBites::ApplicationContext, public OgreBites::InputListener
+class EnergiezApp : public OgreBites::ApplicationContextSDL, public OgreBites::InputListener
 {
 public:
 	static EnergiezApp* GetSingletonPtr();

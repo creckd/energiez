@@ -22,6 +22,7 @@ void EnergiezApp::setup()
 
 	addInputListener(this);
 	Ogre::Root* root = getRoot();
+	setWindowGrab(true);
 
 	_mainSceneManager = root->createSceneManager();
 
