@@ -6,7 +6,7 @@ void CDPRCameraController::Initialize()
 	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
 	
 	_cameraNode = sceneManager->getRootSceneNode()->createChildSceneNode("MainCameraNode");
-	_cameraNode->setPosition(0, 1, 0);
+	_cameraNode->setPosition(0, _characterHeight, 0);
 
 	_cameraYawNode = _cameraNode->createChildSceneNode("MainCameraYaw");
 	_cameraPitchNode = _cameraYawNode->createChildSceneNode("MainCameraPitch");
@@ -22,11 +22,6 @@ void CDPRCameraController::Initialize()
 	Viewport* vp = EnergiezApp::GetSingletonPtr()->getRenderWindow()->addViewport(_mainCamera);
 }
 
-void CDPRCameraController::Update(const FrameEvent& evt)
-{
-	_cameraYawNode->yaw(Radian(evt.timeSinceLastFrame));
-}
-
 void CDPRCameraController::MouseInput(float x, float y)
 {
 	_cameraYawNode->yaw(Radian(x));
@@ -35,8 +30,30 @@ void CDPRCameraController::MouseInput(float x, float y)
 
 bool CDPRCameraController::frameStarted(const FrameEvent& evt)
 {
-	_cameraNode->translate(_cameraYawNode->getOrientation() * _cameraPitchNode->getOrientation() * _translateVector,
+	Vector3 movementVector = _cameraYawNode->getOrientation() * _cameraPitchNode->getOrientation() * _translateVector;
+	movementVector.y = 0.0f;
+	movementVector.normalise();
+
+	movementVector *= _movementSpeed;
+	
+	_cameraNode->translate(movementVector,
 	Ogre::SceneNode::TS_LOCAL);
+
+	Real pitchAngle;
+	Real pitchAngleSign;
+
+	pitchAngle = (2 * Ogre::Degree(Ogre::Math::ACos(this->_cameraPitchNode->getOrientation().w)).valueDegrees());
+	pitchAngleSign = this->_cameraPitchNode->getOrientation().x;
+
+	if (pitchAngle > 90.0f)
+	{
+		if (pitchAngleSign > 0)
+			this->_cameraPitchNode->setOrientation(Ogre::Quaternion(Ogre::Math::Sqrt(0.5f),
+				Ogre::Math::Sqrt(0.5f), 0, 0));
+		else if (pitchAngleSign < 0)
+			this->_cameraPitchNode->setOrientation(Ogre::Quaternion(Ogre::Math::Sqrt(0.5f),
+				-Ogre::Math::Sqrt(0.5f), 0, 0));
+	}
 	
 	return true;
 }

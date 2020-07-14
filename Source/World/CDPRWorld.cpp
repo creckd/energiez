@@ -12,6 +12,7 @@ void CDPRWorld::CreateWorld()
 {
 	ReadCityDataFromFile();
 	BuildCity();
+	BuildTerrain();
 }
 
 void CDPRWorld::ReadCityDataFromFile()
@@ -67,4 +68,23 @@ void CDPRWorld::BuildCity()
 			_spawnedSkyScrapers.push_back(skyScraper);
 		}
 	}
+}
+
+void CDPRWorld::BuildTerrain()
+{
+	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
+	
+	Plane plane(Vector3::UNIT_Y, 0);
+	MeshManager::getSingleton().createPlane(
+		"ground", RGN_DEFAULT,
+		plane,
+		150, 150, 20, 20,
+		true,
+		1, 5, 5,
+		Vector3::UNIT_Z);
+
+	Entity* groundEntity = sceneManager->createEntity("ground");
+	groundEntity->setCastShadows(false);
+	groundEntity->setMaterialName("Examples/Rockwall");
+	sceneManager->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);;
 }

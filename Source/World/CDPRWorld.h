@@ -15,6 +15,7 @@ public:
 private:
 	void ReadCityDataFromFile();
 	void BuildCity();
+	void BuildTerrain();
 private:
 	const std::string CityTextFilePath = "city.txt";
 	

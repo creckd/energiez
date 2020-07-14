@@ -47,20 +47,6 @@ void EnergiezApp::setup()
 	_uiManager = new CDPRUIManager();
 	_uiManager->Initialize();
 
-	Plane plane(Vector3::UNIT_Y, 0);
-	MeshManager::getSingleton().createPlane(
-		"ground", RGN_DEFAULT,
-		plane,
-		150, 150, 20, 20,
-		true,
-		1, 5, 5,
-		Vector3::UNIT_Z);
-
-	Entity* groundEntity = _mainSceneManager->createEntity("ground");
-	groundEntity->setCastShadows(false);
-	groundEntity->setMaterialName("Examples/Rockwall");
-	_mainSceneManager->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);;
-
 	Light* directionalLight = _mainSceneManager->createLight("DirectionalLight");
 	directionalLight->setType(Light::LT_DIRECTIONAL);
 	directionalLight->setDiffuseColour(1, 1, 1);

@@ -10,7 +10,6 @@ class CDPRCameraController : public FrameListener, public OgreBites::InputListen
 {
 public:
 	void Initialize();
-	void Update(const FrameEvent& evt);
 	void MouseInput(float x, float y);
 	bool frameStarted(const FrameEvent& evt) override;
 	bool keyPressed(const OgreBites::KeyboardEvent& evt) override;
@@ -19,7 +18,8 @@ public:
 	Vector3 GetEulerOrientation();
 
 public:
-	float _cameraSpeed = 1.0f;
+	float _movementSpeed = 0.15f;
+	float _characterHeight = 1.5f;
 
 private:
 	Camera* _mainCamera = nullptr;
