@@ -16,6 +16,9 @@
     <Filter Include="Source Files\World">
       <UniqueIdentifier>{02921a82-f840-4d89-a1b2-138f40d64b34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{e28f5b6d-5fee-404c-bbe2-a681411b4be7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\EnergiezApp.cpp">
@@ -30,6 +33,9 @@
     <ClCompile Include="Source\World\CDPRWorld.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UI\CDPRUIManager.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EnergiezApp.h">
@@ -40,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="Source\World\CDPRWorld.h">
       <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\CDPRUIManager.h">
+      <Filter>Source Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

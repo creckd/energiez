@@ -14,7 +14,7 @@ void CDPRCameraController::Initialize()
 	//_cameraNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
 
 	_mainCamera = sceneManager->createCamera("MainCamera");
-	_mainCamera->setNearClipDistance(5); // specific to this sample
+	_mainCamera->setNearClipDistance(0.01); // specific to this sample
 	_mainCamera->setAutoAspectRatio(true);
 	
 	_cameraRollNode->attachObject(_mainCamera);

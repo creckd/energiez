@@ -2,6 +2,7 @@
 
 #include "Camera/CDPRCameraController.h"
 #include "World/CDPRWorld.h"
+#include "UI/CDPRUIManager.h"
 
 EnergiezApp *EnergiezApp::_instance = nullptr;
 
@@ -41,6 +42,10 @@ void EnergiezApp::setup()
 	// SETUP WORLD
 	_world = new CDPRWorld();
 	_world->CreateWorld();
+
+	// SETUP UI
+	_uiManager = new CDPRUIManager();
+	_uiManager->Initialize();
 
 	Plane plane(Vector3::UNIT_Y, 0);
 	MeshManager::getSingleton().createPlane(
