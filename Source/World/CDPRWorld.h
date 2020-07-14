@@ -3,6 +3,8 @@
 #include "vector"
 #include "Ogre.h"
 
+class CDPRSkyScraper;
+
 class CDPRWorld
 {
 public:
@@ -15,12 +17,8 @@ private:
 	void BuildCity();
 private:
 	const std::string CityTextFilePath = "city.txt";
-
-	//Resources
-	const std::string SkyScraperBlockMeshName = "Cube.mesh";
 	
 	std::vector<std::vector<int>> _cityMatrix;
 
-	std::map<Ogre::Entity*, Ogre::SceneNode*> _spawnedSkyScrapers;
-	//std::vector<Ogre::Entity*> _skyScraperEntities;
+	std::vector<CDPRSkyScraper*> _spawnedSkyScrapers;
 };

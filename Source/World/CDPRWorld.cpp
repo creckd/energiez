@@ -1,4 +1,5 @@
 #include "World/CDPRWorld.h"
+#include "World/CDPRSkyScraper.h"
 #include <algorithm>
 #include <sstream>
 #include <string>
@@ -55,16 +56,15 @@ void CDPRWorld::BuildCity()
 	{
 		for(int j=0;j<_cityMatrix[i].size();j++)
 		{
-			Entity* spawnedSkyScraper = sceneManager->createEntity(SkyScraperBlockMeshName);
-			spawnedSkyScraper->setMaterialName("danidiffuse");
-			spawnedSkyScraper->setCastShadows(true);
+			int height = _cityMatrix[i][j];
 
-			SceneNode* spawnedSceneNode = cityRootSceneNode->createChildSceneNode();
-			spawnedSceneNode->setPosition(Vector3(i * _buildingWidth * _buildingPaddingWorldPosition, 0, j * _buildingWidth * _buildingPaddingWorldPosition));
-			spawnedSceneNode->attachObject(spawnedSkyScraper);
-			spawnedSceneNode->setScale(1.0, 1.0 * _cityMatrix[i][j], 1.0);
+			if (height == 0)
+				continue;
 
-			_spawnedSkyScrapers.emplace(spawnedSkyScraper, spawnedSceneNode);
+			CDPRSkyScraper* skyScraper = new CDPRSkyScraper(sceneManager, cityRootSceneNode, height);
+			skyScraper->Spawn(Vector3(i * _buildingWidth * _buildingPaddingWorldPosition, 0, j * _buildingWidth * _buildingPaddingWorldPosition));
+			
+			_spawnedSkyScrapers.push_back(skyScraper);
 		}
 	}
 }

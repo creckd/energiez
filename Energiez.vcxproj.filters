@@ -36,6 +36,9 @@
     <ClCompile Include="Source\UI\CDPRUIManager.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\World\CDPRSkyScraper.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EnergiezApp.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Source\UI\CDPRUIManager.h">
       <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\World\CDPRSkyScraper.h">
+      <Filter>Source Files\World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
