@@ -3,6 +3,7 @@
 #include "Camera/CDPRCameraController.h"
 #include "World/CDPRWorld.h"
 #include "World/CDPRBirdManager.h"
+#include "Player/CDPRPlayerController.h"
 #include "UI/CDPRUIManager.h"
 
 EnergiezApp *EnergiezApp::_instance = nullptr;
@@ -52,6 +53,10 @@ void EnergiezApp::setup()
 	_birdManager = new CDPRBirdManager();
 	_birdManager->Initialize();
 	_birdManager->SpawnBirds(500);
+
+	_playerManager = new CDPRPlayerController();
+	_playerManager->Initialize();
+	addInputListener(_playerManager);
 
 	Light* directionalLight = _mainSceneManager->createLight("DirectionalLight");
 	directionalLight->setType(Light::LT_DIRECTIONAL);

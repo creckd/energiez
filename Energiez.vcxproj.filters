@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Math">
       <UniqueIdentifier>{c61fda87-0bf8-4b88-bde2-f0d11bce5af5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{7ea75e8c-2d38-43cf-ba6d-c1d7fc74e1b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\EnergiezApp.cpp">
@@ -57,6 +60,12 @@
     <ClCompile Include="Source\Math\CDPRMathHelper.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player\CDPRPlayerController.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player\CDPRRedBall.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EnergiezApp.h">
@@ -85,6 +94,12 @@
     </ClInclude>
     <ClInclude Include="Source\Math\CDPRMathHelper.h">
       <Filter>Source Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\CDPRPlayerController.h">
+      <Filter>Source Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\CDPRRedBall.h">
+      <Filter>Source Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

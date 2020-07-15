@@ -8,6 +8,7 @@ class CDPRCameraController;
 class CDPRWorld;
 class CDPRUIManager;
 class CDPRBirdManager;
+class CDPRPlayerController;
 
 using namespace Ogre;
 
@@ -30,6 +31,7 @@ public:
 	CDPRUIManager* _uiManager = nullptr;
 	CDPRWorld* _world = nullptr;
 	CDPRBirdManager* _birdManager = nullptr;
+	CDPRPlayerController* _playerManager = nullptr;
 	
 private:
 	static EnergiezApp* _instance;

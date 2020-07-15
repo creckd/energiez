@@ -129,3 +129,13 @@ Vector3 CDPRCameraController::GetEulerOrientation()
 		Ogre::Math::Floor(2 * Ogre::Degree(Ogre::Math::ACos(this->_cameraNode->getOrientation().w)).valueDegrees())
 	);
 }
+
+Vector3 CDPRCameraController::GetForwardVector()
+{
+	return _cameraYawNode->getOrientation() * _cameraPitchNode->getOrientation() * Vector3::NEGATIVE_UNIT_Z;
+}
+
+Vector3 CDPRCameraController::GetWorldPosition()
+{
+	return _cameraNode->getPosition();
+}

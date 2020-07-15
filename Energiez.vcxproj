@@ -330,6 +330,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="Source\Core\Main.cpp" />
     <ClCompile Include="Source\Math\CDPRMathHelper.cpp" />
     <ClCompile Include="Source\Physics\CDPRPhysics.cpp" />
+    <ClCompile Include="Source\Player\CDPRPlayerController.cpp" />
+    <ClCompile Include="Source\Player\CDPRRedBall.cpp" />
     <ClCompile Include="Source\UI\CDPRUIManager.cpp" />
     <ClCompile Include="Source\World\CDPRBird.cpp" />
     <ClCompile Include="Source\World\CDPRBirdManager.cpp" />
@@ -341,6 +343,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="Source\Core\EnergiezApp.h" />
     <ClInclude Include="Source\Math\CDPRMathHelper.h" />
     <ClInclude Include="Source\Physics\CDPRPhysics.h" />
+    <ClInclude Include="Source\Player\CDPRPlayerController.h" />
+    <ClInclude Include="Source\Player\CDPRRedBall.h" />
     <ClInclude Include="Source\UI\CDPRUIManager.h" />
     <ClInclude Include="Source\World\CDPRBird.h" />
     <ClInclude Include="Source\World\CDPRBirdManager.h" />

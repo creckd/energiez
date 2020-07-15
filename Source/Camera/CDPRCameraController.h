@@ -16,7 +16,8 @@ public:
 	bool keyReleased(const OgreBites::KeyboardEvent& evt) override;
 	
 	Vector3 GetEulerOrientation();
-
+	Vector3 GetForwardVector();
+	Vector3 GetWorldPosition();
 public:
 	float _movementSpeed = 0.1f;
 	float _characterHeight = 1.5f;
