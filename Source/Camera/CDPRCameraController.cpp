@@ -8,7 +8,7 @@ void CDPRCameraController::Initialize()
 	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
 	
 	_cameraNode = sceneManager->getRootSceneNode()->createChildSceneNode("MainCameraNode");
-	_cameraNode->setPosition(0, _characterHeight, -10);
+	_cameraNode->setPosition(0, _characterHeight, -50);
 
 	_cameraYawNode = _cameraNode->createChildSceneNode("MainCameraYaw");
 	_cameraPitchNode = _cameraYawNode->createChildSceneNode("MainCameraPitch");
@@ -45,10 +45,10 @@ bool CDPRCameraController::frameStarted(const FrameEvent& evt)
 		{
 			//Vector3 cameraForwardVector = _cameraYawNode->getOrientation() * _cameraPitchNode->getOrientation() * Vector3::UNIT_Z;
 			CDPRRay ray(_cameraNode->getPosition(), movementVector.normalisedCopy());
-			float t;
-			if (CDPRPhysics::RaycastBoxBounds(skyScraper->_boxBoundPoints, ray, t))
+			float distance;
+			if (CDPRPhysics::RaycastBoxBounds(skyScraper->_boxBoundPoints, ray, distance))
 			{
-				if (t > 1 || t < 0)
+				if (distance > 1 || distance < 0)
 					continue;
 				collidedWithSomething = true;
 				break;

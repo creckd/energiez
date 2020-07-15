@@ -7,6 +7,7 @@
 class CDPRCameraController;
 class CDPRWorld;
 class CDPRUIManager;
+class CDPRBirdManager;
 
 using namespace Ogre;
 
@@ -21,11 +22,14 @@ public:
 	bool keyPressed(const OgreBites::KeyboardEvent& evt);
 	bool mouseMoved(const OgreBites::MouseMotionEvent& evt) override;
 
+	void RegisterFrameListener(FrameListener* newListener);
+
 public:
 	SceneManager* _mainSceneManager = nullptr;
 	CDPRCameraController* _cameraController = nullptr;
 	CDPRUIManager* _uiManager = nullptr;
 	CDPRWorld* _world = nullptr;
+	CDPRBirdManager* _birdManager = nullptr;
 	
 private:
 	static EnergiezApp* _instance;

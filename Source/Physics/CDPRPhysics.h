@@ -25,4 +25,5 @@ class CDPRPhysics
 {
 public:
 	static bool RaycastBoxBounds(Vector3 bounds[2], CDPRRay& r, float &t);
+	static bool PointInBoxBounds(Vector3 bounds[2], Vector3& p);
 };

@@ -14,12 +14,57 @@ void CDPRWorld::CreateWorld()
 	BuildTerrain();
 }
 
+bool CDPRWorld::RayCollidingWithAnythingInWorld(CDPRRay& ray, float& hitAtDistance)
+{
+	//Check for world bounds collision
+	if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_worldCollisionBounds, ray, hitAtDistance))
+	{
+		return true;
+	}
+
+	//Check for terrain collision
+	if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, hitAtDistance))
+	{
+		return true;
+	}
+
+	//Check for every skyscraper collision
+	for (CDPRSkyScraper* skyScraper : EnergiezApp::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
+		if (CDPRPhysics::RaycastBoxBounds(skyScraper->_boxBoundPoints, ray, hitAtDistance))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool CDPRWorld::PointInAnyCollisionBoxInWorld(Vector3 point)
+{
+
+	//Check for terrain collision
+	if (CDPRPhysics::PointInBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, point))
+	{
+		return true;
+	}
+
+	//Check for every skyscraper collision
+	for (CDPRSkyScraper* skyScraper : EnergiezApp::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
+		if (CDPRPhysics::PointInBoxBounds(skyScraper->_boxBoundPoints, point))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void CDPRWorld::ReadCityDataFromFile()
 {
 	std::ifstream file(CityTextFilePath);
 	std::string str;
 	std::vector<std::string> lines;
-	
+
 	while (std::getline(file, str))
 	{
 		// Ignore commented lines and spaces
@@ -29,20 +74,20 @@ void CDPRWorld::ReadCityDataFromFile()
 		}
 	}
 
-	for(auto line : lines)
+	for (auto line : lines)
 	{
 		std::stringstream lineStream(line);
 		std::string segment;
 		std::vector<int> row;
 
-		
+
 		while (std::getline(lineStream, segment, ','))
 		{
 			int height = std::stoi(segment);
 			row.push_back(height);
 		}
 
-		if(row.size() > 0)
+		if (row.size() > 0)
 			_cityMatrix.push_back(row);
 	}
 }
@@ -51,10 +96,16 @@ void CDPRWorld::BuildCity()
 {
 	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
 	SceneNode* cityRootSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode("CityRoot");
-	
-	for(int i=0;i<_cityMatrix.size();i++)
+
+	int columns = _cityMatrix.size();
+	int rows = _cityMatrix[0].size();
+
+	//Centralize City
+	cityRootSceneNode->translate(Vector3(-(_buildingPaddingWorldPosition + _buildingWidth) * rows / 2, 0, -(_buildingPaddingWorldPosition + _buildingWidth) * columns / 2));
+
+	for (int i = 0; i < _cityMatrix.size(); i++)
 	{
-		for(int j=0;j<_cityMatrix[i].size();j++)
+		for (int j = 0; j < _cityMatrix[i].size(); j++)
 		{
 			int height = _cityMatrix[i][j];
 
@@ -63,7 +114,7 @@ void CDPRWorld::BuildCity()
 
 			CDPRSkyScraper* skyScraper = new CDPRSkyScraper(sceneManager, cityRootSceneNode, height);
 			skyScraper->Spawn(Vector3((i * _buildingWidth) + (i * _buildingPaddingWorldPosition), 0, (j * _buildingWidth) + (j * _buildingPaddingWorldPosition)), _buildingWidth);
-			
+
 			_spawnedSkyScrapers.push_back(skyScraper);
 		}
 	}
@@ -72,15 +123,21 @@ void CDPRWorld::BuildCity()
 void CDPRWorld::BuildTerrain()
 {
 	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
-	
+
 	Plane plane(Vector3::UNIT_Y, 0);
 	MeshManager::getSingleton().createPlane(
 		"ground", RGN_DEFAULT,
 		plane,
-		150, 150, 20, 20,
+		_terrainWidth, _terrainHeight, _terrainSubdivision, _terrainSubdivision,
 		true,
 		1, 5, 5,
 		Vector3::UNIT_Z);
+
+	_terrainCollisionBounds[0] = Vector3(-_terrainWidth / 2, -10.0f, -_terrainHeight / 2);
+	_terrainCollisionBounds[1] = Vector3(_terrainWidth / 2, 0, _terrainHeight);
+
+	_worldCollisionBounds[0] = Vector3(-_terrainWidth / 2, 0.0f, -_terrainHeight / 2);
+	_worldCollisionBounds[1] = Vector3(_terrainWidth / 2, 50.0f, _terrainHeight / 2);
 
 	Entity* groundEntity = sceneManager->createEntity("ground");
 	groundEntity->setCastShadows(false);

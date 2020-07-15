@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{80374f44-6857-473d-aee9-abc4ded64233}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{c61fda87-0bf8-4b88-bde2-f0d11bce5af5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\EnergiezApp.cpp">
@@ -45,6 +48,15 @@
     <ClCompile Include="Source\Physics\CDPRPhysics.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\World\CDPRBird.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\World\CDPRBirdManager.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\CDPRMathHelper.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EnergiezApp.h">
@@ -64,6 +76,15 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\CDPRPhysics.h">
       <Filter>Source Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\World\CDPRBird.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\World\CDPRBirdManager.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\CDPRMathHelper.h">
+      <Filter>Source Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

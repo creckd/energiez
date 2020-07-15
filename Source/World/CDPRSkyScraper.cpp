@@ -10,8 +10,8 @@ CDPRSkyScraper::CDPRSkyScraper(SceneManager* mainSceneManager, SceneNode* cityRo
 void CDPRSkyScraper::Spawn(Vector3 rootWorldPosition, float worldSpaceWidth)
 {
 	// For simple bounding box raycast uses later...
-	_boxBoundPoints[0] = rootWorldPosition + Vector3(-worldSpaceWidth / 2, 0, -worldSpaceWidth / 2);
-	_boxBoundPoints[1] = rootWorldPosition + Vector3(worldSpaceWidth / 2, _height * worldSpaceWidth, worldSpaceWidth / 2);
+	_boxBoundPoints[0] = _cityRootNode->getPosition() + rootWorldPosition + Vector3(-worldSpaceWidth / 2, 0, -worldSpaceWidth / 2);
+	_boxBoundPoints[1] = _cityRootNode->getPosition() + rootWorldPosition + Vector3(worldSpaceWidth / 2, _height * worldSpaceWidth, worldSpaceWidth / 2);
 
 	for (int i = 0; i < _height; i++)
 	{

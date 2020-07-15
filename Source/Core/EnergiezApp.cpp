@@ -2,6 +2,7 @@
 
 #include "Camera/CDPRCameraController.h"
 #include "World/CDPRWorld.h"
+#include "World/CDPRBirdManager.h"
 #include "UI/CDPRUIManager.h"
 
 EnergiezApp *EnergiezApp::_instance = nullptr;
@@ -38,7 +39,7 @@ void EnergiezApp::setup()
 	_cameraController = new CDPRCameraController();
 	_cameraController->Initialize();
 	addInputListener(_cameraController);
-	getRoot()->addFrameListener(_cameraController);
+	RegisterFrameListener(_cameraController);
 
 	// SETUP WORLD
 	_world = new CDPRWorld();
@@ -47,6 +48,10 @@ void EnergiezApp::setup()
 	// SETUP UI
 	_uiManager = new CDPRUIManager();
 	_uiManager->Initialize();
+
+	_birdManager = new CDPRBirdManager();
+	_birdManager->Initialize();
+	_birdManager->SpawnBirds(500);
 
 	Light* directionalLight = _mainSceneManager->createLight("DirectionalLight");
 	directionalLight->setType(Light::LT_DIRECTIONAL);
@@ -74,4 +79,9 @@ bool EnergiezApp::mouseMoved(const OgreBites::MouseMotionEvent& evt)
 		_cameraController->MouseInput(evt.xrel * -0.01f, evt.yrel * -0.01f);
 
 	return true;
+}
+
+void EnergiezApp::RegisterFrameListener(FrameListener* newListener)
+{
+	getRoot()->addFrameListener(newListener);
 }

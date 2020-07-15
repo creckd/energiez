@@ -16,7 +16,7 @@ public:
 	Vector3 _boxBoundPoints[2];
 	
 private:
-	const std::string SkyScraperBlockMeshResource = "Cube.mesh";
+	const std::string SkyScraperBlockMeshResource = "bevelcube.mesh";
 	const std::string SkyScraperBlockMaterialResource = "danidiffuse";
 
 	int _height = -1;
