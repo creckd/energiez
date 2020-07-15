@@ -22,5 +22,6 @@ private:
 	Vector3 GetRandomSpawnPointInWorld();
 private:
 	const std::string BirdMeshResource = "paperplane.mesh";
+	const std::string BirdMaterialResource = "paperplanes";
 
 };

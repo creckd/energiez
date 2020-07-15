@@ -18,7 +18,7 @@ void CDPRBirdManager::SpawnBirds(int amountOfBirds)
 	for(int i=0;i<amountOfBirds;i++)
 	{
 		Ogre::Entity* spawnedBirdEntity = sceneManager->createEntity(BirdMeshResource);
-		spawnedBirdEntity->setMaterialName(BirdMeshResource);
+		spawnedBirdEntity->setMaterialName(BirdMaterialResource);
 		spawnedBirdEntity->setCastShadows(true);
 
 		SceneNode* spawnedSceneNode = birdsRootNode->createChildSceneNode();

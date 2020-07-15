@@ -14,7 +14,7 @@ public:
 	
 	void Initialize();
 public:
-	float _terrainCollisionDetectionRange = 10.0f;
+	float _terrainCollisionDetectionRange = 15.0f;
 	float _visionDistance = 10.0f;
 	float _avoidRadius = 5.0f;
 
