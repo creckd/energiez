@@ -19,6 +19,9 @@
     <Filter Include="Source Files\UI">
       <UniqueIdentifier>{e28f5b6d-5fee-404c-bbe2-a681411b4be7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{80374f44-6857-473d-aee9-abc4ded64233}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\EnergiezApp.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="Source\World\CDPRSkyScraper.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Physics\CDPRPhysics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EnergiezApp.h">
@@ -55,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="Source\World\CDPRSkyScraper.h">
       <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\CDPRPhysics.h">
+      <Filter>Source Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

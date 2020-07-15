@@ -18,7 +18,7 @@ public:
 	Vector3 GetEulerOrientation();
 
 public:
-	float _movementSpeed = 0.15f;
+	float _movementSpeed = 0.1f;
 	float _characterHeight = 1.5f;
 
 private:

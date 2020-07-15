@@ -1,5 +1,4 @@
 #include "World/CDPRWorld.h"
-#include "World/CDPRSkyScraper.h"
 #include <algorithm>
 #include <sstream>
 #include <string>
@@ -63,7 +62,7 @@ void CDPRWorld::BuildCity()
 				continue;
 
 			CDPRSkyScraper* skyScraper = new CDPRSkyScraper(sceneManager, cityRootSceneNode, height);
-			skyScraper->Spawn(Vector3(i * _buildingWidth * _buildingPaddingWorldPosition, 0, j * _buildingWidth * _buildingPaddingWorldPosition));
+			skyScraper->Spawn(Vector3((i * _buildingWidth) + (i * _buildingPaddingWorldPosition), 0, (j * _buildingWidth) + (j * _buildingPaddingWorldPosition)), _buildingWidth);
 			
 			_spawnedSkyScrapers.push_back(skyScraper);
 		}

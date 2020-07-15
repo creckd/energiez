@@ -328,6 +328,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="Source\Camera\CDPRCameraController.cpp" />
     <ClCompile Include="Source\Core\EnergiezApp.cpp" />
     <ClCompile Include="Source\Core\Main.cpp" />
+    <ClCompile Include="Source\Physics\CDPRPhysics.cpp" />
     <ClCompile Include="Source\UI\CDPRUIManager.cpp" />
     <ClCompile Include="Source\World\CDPRSkyScraper.cpp" />
     <ClCompile Include="Source\World\CDPRWorld.cpp" />
@@ -335,6 +336,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemGroup>
     <ClInclude Include="Source\Camera\CDPRCameraController.h" />
     <ClInclude Include="Source\Core\EnergiezApp.h" />
+    <ClInclude Include="Source\Physics\CDPRPhysics.h" />
     <ClInclude Include="Source\UI\CDPRUIManager.h" />
     <ClInclude Include="Source\World\CDPRSkyScraper.h" />
     <ClInclude Include="Source\World\CDPRWorld.h" />

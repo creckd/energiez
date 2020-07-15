@@ -10,7 +10,11 @@ class CDPRSkyScraper
 {
 public:
 	CDPRSkyScraper(SceneManager* mainSceneManager, SceneNode* cityRoot, int skyScraperHeight);
-	void Spawn(Vector3 rootWorldPosition);
+	void Spawn(Vector3 rootWorldPosition, float worldSpaceWidth);
+public:
+	//For raycast calculations later...
+	Vector3 _boxBoundPoints[2];
+	
 private:
 	const std::string SkyScraperBlockMeshResource = "Cube.mesh";
 	const std::string SkyScraperBlockMaterialResource = "danidiffuse";

@@ -7,18 +7,23 @@ CDPRSkyScraper::CDPRSkyScraper(SceneManager* mainSceneManager, SceneNode* cityRo
 	_height = skyScraperHeight;
 }
 
-void CDPRSkyScraper::Spawn(Vector3 rootWorldPosition)
+void CDPRSkyScraper::Spawn(Vector3 rootWorldPosition, float worldSpaceWidth)
 {
-	for(int i=0;i<_height;i++)
+	// For simple bounding box raycast uses later...
+	_boxBoundPoints[0] = rootWorldPosition + Vector3(-worldSpaceWidth / 2, 0, -worldSpaceWidth / 2);
+	_boxBoundPoints[1] = rootWorldPosition + Vector3(worldSpaceWidth / 2, _height * worldSpaceWidth, worldSpaceWidth / 2);
+
+	for (int i = 0; i < _height; i++)
 	{
 		Entity* spawnedSkyScraper = _mainSceneManager->createEntity(SkyScraperBlockMeshResource);
 		spawnedSkyScraper->setMaterialName(SkyScraperBlockMaterialResource);
 		spawnedSkyScraper->setCastShadows(true);
 
 		SceneNode* spawnedSceneNode = _cityRootNode->createChildSceneNode();
-		spawnedSceneNode->setPosition(rootWorldPosition + Vector3(0.0f,(BlenderToOgreUnitScale/2.0f) + (i * BlenderToOgreUnitScale),0.0f));
+		
+		spawnedSceneNode->setPosition(rootWorldPosition + Vector3(0.0f, (worldSpaceWidth / 2) + (worldSpaceWidth * i), -worldSpaceWidth/2));
 		spawnedSceneNode->attachObject(spawnedSkyScraper);
-		spawnedSceneNode->setScale(1.0, 1.0, 1.0);
+		spawnedSceneNode->setScale(worldSpaceWidth / BlenderToOgreUnitScale, worldSpaceWidth / BlenderToOgreUnitScale, worldSpaceWidth / BlenderToOgreUnitScale);
 
 		_spawnedBlocks.emplace(spawnedSceneNode, spawnedSkyScraper);
 	}

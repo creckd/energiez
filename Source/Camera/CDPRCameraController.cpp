@@ -1,12 +1,14 @@
 #include "CDPRCameraController.h"
 #include "Core/EnergiezApp.h"
+#include "Physics/CDPRPhysics.h"
+#include "World/CDPRWorld.h"
 
 void CDPRCameraController::Initialize()
 {
 	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
 	
 	_cameraNode = sceneManager->getRootSceneNode()->createChildSceneNode("MainCameraNode");
-	_cameraNode->setPosition(0, _characterHeight, 0);
+	_cameraNode->setPosition(0, _characterHeight, -10);
 
 	_cameraYawNode = _cameraNode->createChildSceneNode("MainCameraYaw");
 	_cameraPitchNode = _cameraYawNode->createChildSceneNode("MainCameraPitch");
@@ -35,9 +37,27 @@ bool CDPRCameraController::frameStarted(const FrameEvent& evt)
 	movementVector.normalise();
 
 	movementVector *= _movementSpeed;
-	
-	_cameraNode->translate(movementVector,
-	Ogre::SceneNode::TS_LOCAL);
+
+	bool collidedWithSomething = false;
+
+	if (movementVector.length() > 0) {
+		for (CDPRSkyScraper* skyScraper : EnergiezApp::GetSingletonPtr()->_world->GetSpawnedSkyScrapers())
+		{
+			//Vector3 cameraForwardVector = _cameraYawNode->getOrientation() * _cameraPitchNode->getOrientation() * Vector3::UNIT_Z;
+			CDPRRay ray(_cameraNode->getPosition(), movementVector.normalisedCopy());
+			float t;
+			if (CDPRPhysics::RaycastBoxBounds(skyScraper->_boxBoundPoints, ray, t))
+			{
+				if (t > 1 || t < 0)
+					continue;
+				collidedWithSomething = true;
+				break;
+			}
+		}
+	}
+
+	if(!collidedWithSomething)
+		_cameraNode->translate(movementVector, Ogre::SceneNode::TS_LOCAL);
 
 	Real pitchAngle;
 	Real pitchAngleSign;
