@@ -20,6 +20,10 @@ public:
 
 	float _terrainWidth = 100.0f;
 	float _terrainHeight = 100.0f;
+
+	float _wallWidth = 1.5f;
+	float _wallHeight = 20.0f;
+	
 	int _terrainSubdivision = 20;
 
 	Vector3 _terrainCollisionBounds[2];
@@ -28,8 +32,11 @@ private:
 	void ReadCityDataFromFile();
 	void BuildCity();
 	void BuildTerrain();
+	void BuildWalls();
 private:
 	const std::string CityTextFilePath = "city.txt";
+	const std::string UnitCubeMeshResource = "unitcube.mesh";
+	const std::string WallMaterialResource = "walls";
 	
 	std::vector<std::vector<int>> _cityMatrix;
 	std::vector<CDPRSkyScraper*> _spawnedSkyScrapers;

@@ -14,10 +14,13 @@ void CDPRBirdManager::SpawnBirds(int amountOfBirds)
 {
 	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
 	SceneNode* birdsRootNode = sceneManager->getRootSceneNode()->createChildSceneNode("BirdsRoot");
+
+	Ogre::MeshPtr mMesh = MeshManager::getSingleton().load(BirdMeshResource, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	mMesh->buildEdgeList();
 	
 	for(int i=0;i<amountOfBirds;i++)
 	{
-		Ogre::Entity* spawnedBirdEntity = sceneManager->createEntity(BirdMeshResource);
+		Ogre::Entity* spawnedBirdEntity = sceneManager->createEntity(mMesh);
 		spawnedBirdEntity->setMaterialName(BirdMaterialResource);
 		spawnedBirdEntity->setCastShadows(true);
 

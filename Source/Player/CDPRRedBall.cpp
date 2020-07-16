@@ -55,17 +55,12 @@ void CDPRRedBall::Update(float deltaTime)
 		}
 		else if (closestDst <= _aggroRange)
 		{
-			if (_currentEnergy >= 0) {
-				float boostForce = deltaTime;
-				_velocity += (closestBird->_position - _projectileNode->getPosition()).normalisedCopy() * boostForce;
-				_currentEnergy = Math::Clamp(_currentEnergy - boostForce, 0.0f, Math::POS_INFINITY);
-			}
+				//_velocity += (closestBird->_position - _projectileNode->getPosition()).normalisedCopy() * deltaTime;
 		}
 
-		_projectileNode->setScale(Vector3::UNIT_SCALE * _currentEnergy);
+		//_projectileNode->setScale(Vector3::UNIT_SCALE * _currentEnergy);
 
-		if (_velocity.length() <= 0.5f)
-			_currentEnergy -= deltaTime;
+		//_currentEnergy -= _velocity.length();
 	}
 }
 

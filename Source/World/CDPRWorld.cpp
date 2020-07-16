@@ -12,6 +12,7 @@ void CDPRWorld::CreateWorld()
 	ReadCityDataFromFile();
 	BuildCity();
 	BuildTerrain();
+	BuildWalls();
 }
 
 bool CDPRWorld::RayCollidingWithAnythingInWorld(CDPRRay& ray, CDPRRayHitInfo& hitInfo)
@@ -164,6 +165,58 @@ void CDPRWorld::BuildTerrain()
 
 	Entity* groundEntity = sceneManager->createEntity("ground");
 	groundEntity->setCastShadows(false);
-	groundEntity->setMaterialName("Examples/Rockwall");
-	sceneManager->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);;
+	groundEntity->setMaterialName("ground");
+	sceneManager->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);
+}
+
+void CDPRWorld::BuildWalls()
+{
+	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
+
+	Ogre::MeshPtr mMesh = MeshManager::getSingleton().load(UnitCubeMeshResource, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	mMesh->buildEdgeList();
+
+	// Back Wall
+	
+	Entity* wallEntity = sceneManager->createEntity(mMesh);
+	wallEntity->setMaterialName(WallMaterialResource);
+	wallEntity->setCastShadows(true);
+
+	SceneNode* wallNode = sceneManager->getRootSceneNode()->createChildSceneNode();
+	wallNode->attachObject(wallEntity);
+	wallNode->setScale(_terrainWidth / 2.0f, _wallHeight, _wallWidth);
+	wallNode->setPosition(0, _wallHeight, (_terrainHeight / 2.0f) + (_wallWidth / 2.0f));
+
+	// Front Wall
+	
+	Entity* wallEntity2 = sceneManager->createEntity(mMesh);
+	wallEntity2->setMaterialName(WallMaterialResource);
+	wallEntity2->setCastShadows(true);
+
+	SceneNode* wallNode2 = sceneManager->getRootSceneNode()->createChildSceneNode();
+	wallNode2->attachObject(wallEntity2);
+	wallNode2->setScale(_terrainWidth / 2.0f, _wallHeight, _wallWidth);
+	wallNode2->setPosition(0, _wallHeight, -(_terrainHeight / 2.0f) - (_wallWidth / 2.0f));
+
+	// Left Wall
+
+	Entity* wallEntity3 = sceneManager->createEntity(mMesh);
+	wallEntity3->setMaterialName(WallMaterialResource);
+	wallEntity3->setCastShadows(true);
+
+	SceneNode* wallNode3 = sceneManager->getRootSceneNode()->createChildSceneNode();
+	wallNode3->attachObject(wallEntity3);
+	wallNode3->setScale(_wallWidth, _wallHeight, _terrainHeight / 2.0f);
+	wallNode3->setPosition((_terrainWidth / 2.0f) + (_wallWidth / 2.0f), _wallHeight, 0);
+
+	// Right Wall
+
+	Entity* wallEntity4 = sceneManager->createEntity(mMesh);
+	wallEntity4->setMaterialName(WallMaterialResource);
+	wallEntity4->setCastShadows(true);
+
+	SceneNode* wallNode4 = sceneManager->getRootSceneNode()->createChildSceneNode();
+	wallNode4->attachObject(wallEntity4);
+	wallNode4->setScale(_wallWidth, _wallHeight, _terrainHeight / 2.0f);
+	wallNode4->setPosition(-(_terrainWidth / 2.0f) - (_wallWidth / 2.0f), _wallHeight, 0);
 }

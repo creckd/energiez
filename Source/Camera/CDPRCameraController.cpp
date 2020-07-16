@@ -13,7 +13,7 @@ void CDPRCameraController::Initialize()
 	_cameraYawNode = _cameraNode->createChildSceneNode("MainCameraYaw");
 	_cameraPitchNode = _cameraYawNode->createChildSceneNode("MainCameraPitch");
 	_cameraRollNode = _cameraPitchNode->createChildSceneNode("MainCameraRoll");
-	//_cameraNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
+	_cameraPitchNode->lookAt(Ogre::Vector3(0, _characterHeight, 50), Ogre::Node::TS_WORLD);
 
 	_mainCamera = sceneManager->createCamera("MainCamera");
 	_mainCamera->setNearClipDistance(0.01); // specific to this sample

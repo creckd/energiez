@@ -30,7 +30,7 @@ void EnergiezApp::setup()
 
 	_mainSceneManager->setSkyDome(true, "Examples/CloudySky", 5, 8);
 
-	_mainSceneManager->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
+	_mainSceneManager->setAmbientLight(ColourValue(1, 1, 1));
 	_mainSceneManager->setShadowTechnique(ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	Ogre::RTShader::ShaderGenerator* shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
@@ -65,7 +65,8 @@ void EnergiezApp::setup()
 
 	SceneNode* directionalLightNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode();
 	directionalLightNode->attachObject(directionalLight);
-	directionalLightNode->setDirection(0, -1, 1);
+	directionalLightNode->setDirection(0, -0.83, 0.75);
+
 }
 
 bool EnergiezApp::keyPressed(const OgreBites::KeyboardEvent& evt)
