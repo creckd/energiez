@@ -25,7 +25,7 @@ void CDPRRedBall::Update(float deltaTime)
 	
 	if (_projectileFlying) {
 
-		if (_currentEnergy <= 0.0f)
+		if (_velocity.length() <= _velocityMagnitudeToKillAt)
 		{
 			Explode();
 			return;
@@ -50,15 +50,13 @@ void CDPRRedBall::Update(float deltaTime)
 		if (closestDst <= _harmfulRange)
 		{
 			Consume(closestBird);
-			if (_numberOfBirdConsumed >= _maxNumberOfBirdsConsumableBeforeExplode)
-				Explode();
 		}
 		else if (closestDst <= _aggroRange)
 		{
-				//_velocity += (closestBird->_position - _projectileNode->getPosition()).normalisedCopy() * deltaTime;
+				_velocity += (closestBird->_position - _projectileNode->getPosition()).normalisedCopy() * deltaTime * _chargeSpeed;
 		}
 
-		//_projectileNode->setScale(Vector3::UNIT_SCALE * _currentEnergy);
+		_projectileNode->setScale(Vector3::UNIT_SCALE + _numberOfBirdConsumed * _growthAmountPerKill);
 
 		//_currentEnergy -= _velocity.length();
 	}
@@ -73,6 +71,5 @@ void CDPRRedBall::Explode()
 void CDPRRedBall::Consume(CDPRBird* birdToConsume)
 {
 	_numberOfBirdConsumed++;
-	_currentEnergy += 1.0f;
 	birdToConsume->Kill();
 }

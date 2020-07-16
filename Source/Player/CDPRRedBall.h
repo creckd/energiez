@@ -18,12 +18,11 @@ public:
 	void Explode();
 	void Consume(CDPRBird* birdToConsume);
 public:
-	float _startingEnergy = 1.0f;
 	float _harmfulRange = 5.0f;
 	float _aggroRange = 20.0f;
-
-	int _maxNumberOfBirdsConsumableBeforeExplode = 5;
+	float _velocityMagnitudeToKillAt = 0.1f;
+	float _growthAmountPerKill = 0.05f;
+	float _chargeSpeed = 5.0f;
 private:
-	float _currentEnergy = 1.0f;
 	int _numberOfBirdConsumed = 0;
 };

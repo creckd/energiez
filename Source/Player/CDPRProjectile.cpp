@@ -108,6 +108,29 @@ void CDPRProjectile::CollisionCheck()
 			} else if(hitInfo.hitObjectType == EHitObjectType::Terrain)
 			{
 				_velocity = -(-_velocity.reflect(Vector3::UNIT_Y));
+			} else if(hitInfo.hitObjectType == EHitObjectType::Walls)
+			{
+				Vector3 boundingBoxCenter = (hitInfo.hitBounds[0] + hitInfo.hitBounds[1]) / 2;
+
+				Vector3 closestNormal = Vector3::UNIT_Z;
+				float smallestDot = ((boundingBoxCenter - Vector3::ZERO).normalisedCopy()).dotProduct(closestNormal);
+
+				Vector3 testAxises[6] = { Vector3::UNIT_Z, Vector3::NEGATIVE_UNIT_Z,
+					Vector3::UNIT_X, Vector3::NEGATIVE_UNIT_X,
+					Vector3::UNIT_Y, Vector3::NEGATIVE_UNIT_Y
+				};
+
+				for (int i = 0; i < 6; i++)
+				{
+					float currentDot = ((boundingBoxCenter - Vector3::ZERO).normalisedCopy()).dotProduct(testAxises[i]);
+					if (currentDot <= smallestDot)
+					{
+						smallestDot = currentDot;
+						closestNormal = testAxises[i];
+					}
+				}
+				
+				_velocity = -(-_velocity.reflect(closestNormal));
 			}
 		}
 	}

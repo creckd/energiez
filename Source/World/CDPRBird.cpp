@@ -94,7 +94,7 @@ void CDPRBird::Move(const FrameEvent& evt)
 	_velocity += flockCenterForce;
 	_velocity += flockHeadingForce;
 	_velocity += seperationHeadingForce;
-	_velocity += redBallAvoidanceForce * 10.0f;
+	//_velocity += redBallAvoidanceForce * 10.0f;
 	_velocity += blackBallSuckInForce * 2.0f;
 }
 

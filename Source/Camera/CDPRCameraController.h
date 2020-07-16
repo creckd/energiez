@@ -21,6 +21,12 @@ public:
 public:
 	float _movementSpeed = 0.1f;
 	float _characterHeight = 1.5f;
+	
+	float _headBobAmount = 0.05f;
+	float _headBobSpeed = 2.5f;
+
+	float _runningHeadBobAmount = 0.05f;
+	float _runningHeadBobSpeed = 20.0f;
 
 private:
 	Camera* _mainCamera = nullptr;
@@ -30,6 +36,8 @@ private:
 	SceneNode* _cameraRollNode = nullptr;
 	
 	Vector3 _translateVector = Vector3::ZERO;
+
+	float _timeSinceGameLaunched = 0.0f;
 };
 
 enum

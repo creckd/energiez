@@ -19,12 +19,69 @@ bool CDPRWorld::RayCollidingWithAnythingInWorld(CDPRRay& ray, CDPRRayHitInfo& hi
 {
 	bool foundAtLeastOneCollision = false;
 	float currentClosestHitDistance = 0.0f;
-	//Check for world bounds collision
-	//if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_worldCollisionBounds, ray, hitAtDistance))
-	//{
-	//	return true;
-	//}
+
 	float hitAtDistance;
+
+	// WALL COLLISION CHECKS
+	if (CDPRPhysics::RaycastBoxBounds(_frontWallBounds, ray, hitAtDistance))
+	{
+		if (foundAtLeastOneCollision && hitAtDistance <= currentClosestHitDistance || !foundAtLeastOneCollision) {
+			hitInfo.hitBounds[0] = _frontWallBounds[0];
+			hitInfo.hitBounds[1] = _frontWallBounds[1];
+			hitInfo.hitdistance = hitAtDistance;
+			hitInfo.hitPoint = ray.orig + ray.dir.normalisedCopy() * hitInfo.hitdistance;
+			hitInfo.hitObjectType = EHitObjectType::Walls;
+
+			currentClosestHitDistance = hitAtDistance;
+
+			foundAtLeastOneCollision = true;
+		}
+	}
+
+	if (CDPRPhysics::RaycastBoxBounds(_backWallBounds, ray, hitAtDistance))
+	{
+		if (foundAtLeastOneCollision && hitAtDistance <= currentClosestHitDistance || !foundAtLeastOneCollision) {
+			hitInfo.hitBounds[0] = _backWallBounds[0];
+			hitInfo.hitBounds[1] = _backWallBounds[1];
+			hitInfo.hitdistance = hitAtDistance;
+			hitInfo.hitPoint = ray.orig + ray.dir.normalisedCopy() * hitInfo.hitdistance;
+			hitInfo.hitObjectType = EHitObjectType::Walls;
+
+			currentClosestHitDistance = hitAtDistance;
+
+			foundAtLeastOneCollision = true;
+		}
+	}
+
+	if (CDPRPhysics::RaycastBoxBounds(_rightWallBounds, ray, hitAtDistance))
+	{
+		if (foundAtLeastOneCollision && hitAtDistance <= currentClosestHitDistance || !foundAtLeastOneCollision) {
+			hitInfo.hitBounds[0] = _rightWallBounds[0];
+			hitInfo.hitBounds[1] = _rightWallBounds[1];
+			hitInfo.hitdistance = hitAtDistance;
+			hitInfo.hitPoint = ray.orig + ray.dir.normalisedCopy() * hitInfo.hitdistance;
+			hitInfo.hitObjectType = EHitObjectType::Walls;
+
+			currentClosestHitDistance = hitAtDistance;
+
+			foundAtLeastOneCollision = true;
+		}
+	}
+
+	if (CDPRPhysics::RaycastBoxBounds(_leftWallBounds, ray, hitAtDistance))
+	{
+		if (foundAtLeastOneCollision && hitAtDistance <= currentClosestHitDistance || !foundAtLeastOneCollision) {
+			hitInfo.hitBounds[0] = _leftWallBounds[0];
+			hitInfo.hitBounds[1] = _leftWallBounds[1];
+			hitInfo.hitdistance = hitAtDistance;
+			hitInfo.hitPoint = ray.orig + ray.dir.normalisedCopy() * hitInfo.hitdistance;
+			hitInfo.hitObjectType = EHitObjectType::Walls;
+
+			currentClosestHitDistance = hitAtDistance;
+
+			foundAtLeastOneCollision = true;
+		}
+	}
 
 	//Check for terrain collision
 	if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, hitAtDistance))
@@ -184,8 +241,15 @@ void CDPRWorld::BuildWalls()
 
 	SceneNode* wallNode = sceneManager->getRootSceneNode()->createChildSceneNode();
 	wallNode->attachObject(wallEntity);
-	wallNode->setScale(_terrainWidth / 2.0f, _wallHeight, _wallWidth);
-	wallNode->setPosition(0, _wallHeight, (_terrainHeight / 2.0f) + (_wallWidth));
+
+	Vector3 backWallCenter = Vector3(0,_wallHeight, (_terrainHeight / 2.0f) + (_wallWidth));
+	Vector3 backWallScale = Vector3(_terrainWidth / 2.0f, _wallHeight, _wallWidth);
+	
+	wallNode->setPosition(backWallCenter);
+	wallNode->setScale(backWallScale);
+	
+	_backWallBounds[0] = backWallCenter - backWallScale;
+	_backWallBounds[1] = backWallCenter + backWallScale;
 
 	// Front Wall
 	
@@ -195,8 +259,15 @@ void CDPRWorld::BuildWalls()
 
 	SceneNode* wallNode2 = sceneManager->getRootSceneNode()->createChildSceneNode();
 	wallNode2->attachObject(wallEntity2);
-	wallNode2->setScale(_terrainWidth / 2.0f, _wallHeight, _wallWidth);
-	wallNode2->setPosition(0, _wallHeight, -(_terrainHeight / 2.0f) - (_wallWidth));
+
+	Vector3 frontWallCenter = Vector3(0, _wallHeight, -(_terrainHeight / 2.0f) - (_wallWidth));
+	Vector3 frontWallScale = Vector3(_terrainWidth / 2.0f, _wallHeight, _wallWidth);
+	
+	wallNode2->setPosition(frontWallCenter);
+	wallNode2->setScale(frontWallScale);
+
+	_frontWallBounds[0] = frontWallCenter - frontWallScale;
+	_frontWallBounds[1] = frontWallCenter + frontWallScale;
 
 	// Left Wall
 
@@ -206,8 +277,15 @@ void CDPRWorld::BuildWalls()
 
 	SceneNode* wallNode3 = sceneManager->getRootSceneNode()->createChildSceneNode();
 	wallNode3->attachObject(wallEntity3);
-	wallNode3->setScale(_wallWidth, _wallHeight, _terrainHeight / 2.0f);
-	wallNode3->setPosition((_terrainWidth / 2.0f) + (_wallWidth), _wallHeight, 0);
+
+	Vector3 leftWallCenter = Vector3((_terrainWidth / 2.0f) + (_wallWidth), _wallHeight, 0);
+	Vector3 leftWallScale = Vector3(_wallWidth, _wallHeight, _terrainHeight / 2.0f);
+	
+	wallNode3->setPosition(leftWallCenter);
+	wallNode3->setScale(leftWallScale);
+
+	_leftWallBounds[0] = leftWallCenter - leftWallScale;
+	_leftWallBounds[1] = leftWallCenter + leftWallScale;
 
 	// Right Wall
 
@@ -217,6 +295,13 @@ void CDPRWorld::BuildWalls()
 
 	SceneNode* wallNode4 = sceneManager->getRootSceneNode()->createChildSceneNode();
 	wallNode4->attachObject(wallEntity4);
-	wallNode4->setScale(_wallWidth, _wallHeight, _terrainHeight / 2.0f);
-	wallNode4->setPosition(-(_terrainWidth / 2.0f) - (_wallWidth), _wallHeight, 0);
+
+	Vector3 rightWallCenter = Vector3(-(_terrainWidth / 2.0f) - (_wallWidth), _wallHeight, 0);
+	Vector3 rightWallScale = Vector3(_wallWidth, _wallHeight, _terrainHeight / 2.0f);
+	
+	wallNode4->setPosition(rightWallCenter);
+	wallNode4->setScale(rightWallScale);
+
+	_rightWallBounds[0] = rightWallCenter - rightWallScale;
+	_rightWallBounds[1] = rightWallCenter + rightWallScale;
 }

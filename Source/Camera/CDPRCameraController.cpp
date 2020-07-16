@@ -8,18 +8,19 @@ void CDPRCameraController::Initialize()
 	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
 	
 	_cameraNode = sceneManager->getRootSceneNode()->createChildSceneNode("MainCameraNode");
-	_cameraNode->setPosition(0, _characterHeight, -50);
+	_cameraNode->setPosition(0, _characterHeight, -40);
 
 	_cameraYawNode = _cameraNode->createChildSceneNode("MainCameraYaw");
 	_cameraPitchNode = _cameraYawNode->createChildSceneNode("MainCameraPitch");
 	_cameraRollNode = _cameraPitchNode->createChildSceneNode("MainCameraRoll");
-	_cameraPitchNode->lookAt(Ogre::Vector3(0, _characterHeight, 50), Ogre::Node::TS_WORLD);
 
 	_mainCamera = sceneManager->createCamera("MainCamera");
-	_mainCamera->setNearClipDistance(0.01); // specific to this sample
+	_mainCamera->setNearClipDistance(0.01f); // specific to this sample
 	_mainCamera->setAutoAspectRatio(true);
 	
 	_cameraRollNode->attachObject(_mainCamera);
+
+	_cameraYawNode->lookAt(Ogre::Vector3(0, _characterHeight, 40), Ogre::Node::TS_WORLD);
 
 	Viewport* vp = EnergiezApp::GetSingletonPtr()->getRenderWindow()->addViewport(_mainCamera);
 }
@@ -39,20 +40,15 @@ bool CDPRCameraController::frameStarted(const FrameEvent& evt)
 	movementVector *= _movementSpeed;
 
 	bool collidedWithSomething = false;
+	bool playerMoving = movementVector.length() > 0.01f;
 
-	if (movementVector.length() > 0) {
-		for (CDPRSkyScraper* skyScraper : EnergiezApp::GetSingletonPtr()->_world->GetSpawnedSkyScrapers())
+	if (playerMoving) {
+		CDPRRay ray(_cameraNode->getPosition(), movementVector.normalisedCopy());
+		CDPRRayHitInfo hitInfo;
+		if(EnergiezApp::GetSingletonPtr()->_world->RayCollidingWithAnythingInWorld(ray, hitInfo))
 		{
-			//Vector3 cameraForwardVector = _cameraYawNode->getOrientation() * _cameraPitchNode->getOrientation() * Vector3::UNIT_Z;
-			CDPRRay ray(_cameraNode->getPosition(), movementVector.normalisedCopy());
-			float distance;
-			if (CDPRPhysics::RaycastBoxBounds(skyScraper->_boxBoundPoints, ray, distance))
-			{
-				if (distance > 1 || distance < 0)
-					continue;
+			if (hitInfo.hitdistance <= 1.0f && hitInfo.hitdistance >= 0.0f)
 				collidedWithSomething = true;
-				break;
-			}
 		}
 	}
 
@@ -74,7 +70,13 @@ bool CDPRCameraController::frameStarted(const FrameEvent& evt)
 			this->_cameraPitchNode->setOrientation(Ogre::Quaternion(Ogre::Math::Sqrt(0.5f),
 				-Ogre::Math::Sqrt(0.5f), 0, 0));
 	}
-	
+
+	float finalHeadBobAmount = playerMoving ? _runningHeadBobAmount : _headBobAmount;
+	float finalHeadBobSpeed = playerMoving ? _runningHeadBobSpeed : _headBobSpeed;
+
+	_cameraNode->setPosition(_cameraNode->getPosition().x, _characterHeight + (Math::Sin(_timeSinceGameLaunched * finalHeadBobSpeed) * finalHeadBobAmount), _cameraNode->getPosition().z);
+	_timeSinceGameLaunched += evt.timeSinceLastFrame;
+
 	return true;
 }
 

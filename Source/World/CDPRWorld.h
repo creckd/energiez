@@ -21,13 +21,18 @@ public:
 	float _terrainWidth = 100.0f;
 	float _terrainHeight = 100.0f;
 
-	float _wallWidth = 1.5f;
+	float _wallWidth = 10.0f;
 	float _wallHeight = 5.0f;
 	
 	int _terrainSubdivision = 20;
 
 	Vector3 _terrainCollisionBounds[2];
 	Vector3 _worldCollisionBounds[2];
+	
+	Vector3 _frontWallBounds[2];
+	Vector3 _backWallBounds[2];
+	Vector3 _rightWallBounds[2];
+	Vector3 _leftWallBounds[2];
 private:
 	void ReadCityDataFromFile();
 	void BuildCity();
