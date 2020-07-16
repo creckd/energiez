@@ -83,6 +83,21 @@ bool CDPRWorld::RayCollidingWithAnythingInWorld(CDPRRay& ray, CDPRRayHitInfo& hi
 		}
 	}
 
+	if (CDPRPhysics::RaycastBoxBounds(_roofBounds, ray, hitAtDistance))
+	{
+		if (foundAtLeastOneCollision && hitAtDistance <= currentClosestHitDistance || !foundAtLeastOneCollision) {
+			hitInfo.hitBounds[0] = _roofBounds[0];
+			hitInfo.hitBounds[1] = _roofBounds[1];
+			hitInfo.hitdistance = hitAtDistance;
+			hitInfo.hitPoint = ray.orig + ray.dir.normalisedCopy() * hitInfo.hitdistance;
+			hitInfo.hitObjectType = EHitObjectType::Roof;
+
+			currentClosestHitDistance = hitAtDistance;
+
+			foundAtLeastOneCollision = true;
+		}
+	}
+
 	//Check for terrain collision
 	if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, hitAtDistance))
 	{
@@ -252,7 +267,7 @@ void CDPRWorld::BuildWalls()
 	_backWallBounds[1] = backWallCenter + backWallScale;
 
 	//High invisible collision walls
-	_backWallBounds[1].y *= 100.0f;
+	_backWallBounds[1].y *= _mapRoofHeightInWorldPosition;
 
 	// Front Wall
 	
@@ -273,7 +288,7 @@ void CDPRWorld::BuildWalls()
 	_frontWallBounds[1] = frontWallCenter + frontWallScale;
 	
 	//High invisible collision walls
-	_frontWallBounds[1].y *= 100.0f;
+	_frontWallBounds[1].y *= _mapRoofHeightInWorldPosition;
 	
 	// Left Wall
 
@@ -294,7 +309,7 @@ void CDPRWorld::BuildWalls()
 	_leftWallBounds[1] = leftWallCenter + leftWallScale;
 
 	//High invisible collision walls
-	_leftWallBounds[1].y *= 100.0f;
+	_leftWallBounds[1].y *= _mapRoofHeightInWorldPosition;
 
 	// Right Wall
 
@@ -315,5 +330,10 @@ void CDPRWorld::BuildWalls()
 	_rightWallBounds[1] = rightWallCenter + rightWallScale;
 
 	//High invisible collision walls
-	_rightWallBounds[1].y *= 100.0f;
+	_rightWallBounds[1].y *= _mapRoofHeightInWorldPosition;
+
+	//Invisible top collision wall
+	
+	_roofBounds[0] = Vector3(-_terrainWidth / 2.0f, _mapRoofHeightInWorldPosition, -_terrainHeight / 2.0f);
+	_roofBounds[1] = Vector3(_terrainWidth / 2.0f, _mapRoofHeightInWorldPosition + _wallWidth, _terrainHeight / 2.0f);
 }

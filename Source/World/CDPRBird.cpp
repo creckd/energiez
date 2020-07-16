@@ -94,7 +94,7 @@ void CDPRBird::Move(const FrameEvent& evt)
 	_velocity += flockCenterForce;
 	_velocity += flockHeadingForce;
 	_velocity += seperationHeadingForce;
-	//_velocity += redBallAvoidanceForce * 10.0f;
+	_velocity += redBallAvoidanceForce * 2.0f;
 	_velocity += blackBallSuckInForce * 2.0f;
 }
 
@@ -115,10 +115,10 @@ void CDPRBird::Move(const FrameEvent& evt)
 	//_velocity = CDPRMathHelper::Vector3Lerp(_velocity, FindBestCollisionFreeDirection(), evt.timeSinceLastFrame * 100.0f);
 	_birdSceneNode.translate(_velocity * evt.timeSinceLastFrame, Node::TS_WORLD);
 	
-//	Quaternion curentRotation = _birdSceneNode.getOrientation();
+	Quaternion curentRotation = _birdSceneNode.getOrientation();
 	_birdSceneNode.lookAt(_birdSceneNode.getPosition() + _velocity.normalisedCopy(), Node::TS_WORLD, Vector3::UNIT_Z);
-//	Quaternion targetRotation = _birdSceneNode.getOrientation();
-//	_birdSceneNode.setOrientation(Quaternion::nlerp(evt.timeSinceLastFrame * 100.0f, curentRotation, targetRotation));
+	Quaternion targetRotation = _birdSceneNode.getOrientation();
+	_birdSceneNode.setOrientation(Quaternion::nlerp(evt.timeSinceLastFrame * 10.0f, curentRotation, targetRotation));
 
 
 	_position = _birdSceneNode.getPosition();

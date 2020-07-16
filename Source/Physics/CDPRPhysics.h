@@ -27,7 +27,8 @@ enum EHitObjectType
 	SkyScraper,
 	WorldBounds,
 	Terrain,
-	Walls
+	Walls,
+	Roof
 };
 
 struct CDPRRayHitInfo

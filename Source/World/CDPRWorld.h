@@ -23,6 +23,8 @@ public:
 
 	float _wallWidth = 10.0f;
 	float _wallHeight = 5.0f;
+
+	float _mapRoofHeightInWorldPosition = 100.0f;
 	
 	int _terrainSubdivision = 20;
 
@@ -33,6 +35,7 @@ public:
 	Vector3 _backWallBounds[2];
 	Vector3 _rightWallBounds[2];
 	Vector3 _leftWallBounds[2];
+	Vector3 _roofBounds[2];
 private:
 	void ReadCityDataFromFile();
 	void BuildCity();

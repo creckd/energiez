@@ -131,6 +131,9 @@ void CDPRProjectile::CollisionCheck()
 				}
 				
 				_velocity = -(-_velocity.reflect(closestNormal));
+			} else if(hitInfo.hitObjectType == EHitObjectType::Roof)
+			{
+				_velocity = -(-_velocity.reflect(Vector3::NEGATIVE_UNIT_Y));
 			}
 		}
 	}
