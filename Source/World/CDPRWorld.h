@@ -22,7 +22,7 @@ public:
 	float _terrainHeight = 100.0f;
 
 	float _wallWidth = 1.5f;
-	float _wallHeight = 20.0f;
+	float _wallHeight = 5.0f;
 	
 	int _terrainSubdivision = 20;
 

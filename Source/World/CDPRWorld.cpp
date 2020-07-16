@@ -185,7 +185,7 @@ void CDPRWorld::BuildWalls()
 	SceneNode* wallNode = sceneManager->getRootSceneNode()->createChildSceneNode();
 	wallNode->attachObject(wallEntity);
 	wallNode->setScale(_terrainWidth / 2.0f, _wallHeight, _wallWidth);
-	wallNode->setPosition(0, _wallHeight, (_terrainHeight / 2.0f) + (_wallWidth / 2.0f));
+	wallNode->setPosition(0, _wallHeight, (_terrainHeight / 2.0f) + (_wallWidth));
 
 	// Front Wall
 	
@@ -196,7 +196,7 @@ void CDPRWorld::BuildWalls()
 	SceneNode* wallNode2 = sceneManager->getRootSceneNode()->createChildSceneNode();
 	wallNode2->attachObject(wallEntity2);
 	wallNode2->setScale(_terrainWidth / 2.0f, _wallHeight, _wallWidth);
-	wallNode2->setPosition(0, _wallHeight, -(_terrainHeight / 2.0f) - (_wallWidth / 2.0f));
+	wallNode2->setPosition(0, _wallHeight, -(_terrainHeight / 2.0f) - (_wallWidth));
 
 	// Left Wall
 
@@ -207,7 +207,7 @@ void CDPRWorld::BuildWalls()
 	SceneNode* wallNode3 = sceneManager->getRootSceneNode()->createChildSceneNode();
 	wallNode3->attachObject(wallEntity3);
 	wallNode3->setScale(_wallWidth, _wallHeight, _terrainHeight / 2.0f);
-	wallNode3->setPosition((_terrainWidth / 2.0f) + (_wallWidth / 2.0f), _wallHeight, 0);
+	wallNode3->setPosition((_terrainWidth / 2.0f) + (_wallWidth), _wallHeight, 0);
 
 	// Right Wall
 
@@ -218,5 +218,5 @@ void CDPRWorld::BuildWalls()
 	SceneNode* wallNode4 = sceneManager->getRootSceneNode()->createChildSceneNode();
 	wallNode4->attachObject(wallEntity4);
 	wallNode4->setScale(_wallWidth, _wallHeight, _terrainHeight / 2.0f);
-	wallNode4->setPosition(-(_terrainWidth / 2.0f) - (_wallWidth / 2.0f), _wallHeight, 0);
+	wallNode4->setPosition(-(_terrainWidth / 2.0f) - (_wallWidth), _wallHeight, 0);
 }
