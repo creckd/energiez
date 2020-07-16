@@ -13,8 +13,9 @@ public:
 	virtual void Initalize();
 	virtual void Update(float deltaTime);
 	virtual void Simulate(float deltaTime);
-
+	
 	void Shoot(Vector3& origin, Vector3& direction, float force);
+	void Destroy();
 	
 	Vector3 GetPosition();
 public:
@@ -32,7 +33,6 @@ protected:
 	SceneNode* _projectileNode = nullptr;
 
 	Vector3 _velocity = Vector3::ZERO;
-	Vector3 _defaultScale = Vector3::UNIT_SCALE;
 	bool _projectileFlying = false;
 private:
 	void CollisionCheck();

@@ -16,7 +16,7 @@ void CDPRRedBall::Initalize()
 {
 	CDPRProjectile::Initalize();
 	
-	_playerController->RegisterProjectile(this);
+	_playerController->RegisterRedBall(this);
 }
 
 void CDPRRedBall::Update(float deltaTime)
@@ -62,7 +62,7 @@ void CDPRRedBall::Update(float deltaTime)
 			}
 		}
 
-		_projectileNode->setScale(_defaultScale * _currentEnergy);
+		_projectileNode->setScale(Vector3::UNIT_SCALE * _currentEnergy);
 
 		if (_velocity.length() <= 0.5f)
 			_currentEnergy -= deltaTime;
@@ -71,12 +71,8 @@ void CDPRRedBall::Update(float deltaTime)
 
 void CDPRRedBall::Explode()
 {
-	_projectileNode->detachAllObjects();
-	EnergiezApp::GetSingletonPtr()->UnRegisterFrameListener(this);
-	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroyEntity(_projectileEntity);
-	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroySceneNode(_projectileNode);
-	_playerController->UnRegisterProjectile(this);
-	delete this;
+	_playerController->UnRegisterRedBall(this);
+	Destroy();
 }
 
 void CDPRRedBall::Consume(CDPRBird* birdToConsume)

@@ -23,8 +23,7 @@ void CDPRProjectile::Initalize()
 	CDPRWorld* world = EnergiezApp::GetSingletonPtr()->_world;
 	;
 	_projectileNode->attachObject(_projectileEntity);
-	_projectileNode->setScale(Vector3::UNIT_SCALE);
-	_defaultScale = _projectileNode->getScale();
+	//_projectileNode->setScale(Vector3::UNIT_SCALE);
 	EnergiezApp::GetSingletonPtr()->RegisterFrameListener(this);
 }
 
@@ -44,6 +43,15 @@ void CDPRProjectile::Simulate(float deltaTime)
 	else _velocity = zeroVector;
 
 	_projectileNode->translate(_velocity);
+}
+
+void CDPRProjectile::Destroy()
+{
+	_projectileNode->detachAllObjects();
+	EnergiezApp::GetSingletonPtr()->UnRegisterFrameListener(this);
+	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroyEntity(_projectileEntity);
+	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroySceneNode(_projectileNode);
+	delete this;
 }
 
 void CDPRProjectile::Shoot(Vector3& origin, Vector3& direction, float force)

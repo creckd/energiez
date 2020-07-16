@@ -6,6 +6,8 @@
 #include "Math/CDPRMathHelper.h"
 #include "Player/CDPRPlayerController.h"
 #include "Player/CDPRRedBall.h"
+#include "Player/CDPRBlackBall.h"
+#include "CDPRBirdManager.h"
 
 CDPRBird::CDPRBird(CDPRBirdManager& managerReference, Entity& birdEntity, SceneNode& birdSceneNode) : _birdManager(managerReference), _birdEntity(birdEntity), _birdSceneNode(birdSceneNode)
 {
@@ -38,6 +40,7 @@ bool CDPRBird::frameStarted(const FrameEvent& evt)
 {
 	WatchFlockMates();
 	WatchForRedBalls();
+	WatchForBlackBalls();
 	Move(evt);
 
 	return true;
@@ -48,35 +51,6 @@ void CDPRBird::Move(const FrameEvent& evt)
 	bool stuck = _birdSceneNode.getPosition().squaredLength() > 7000.0f;
 	if (stuck)
 		Destuck();
-	
-	if (_numberOfPerceivedFlockMates > 0) {
-		_avgFlockCenter /= (float)_numberOfPerceivedFlockMates;
-
-		CDPRWorld* _world = EnergiezApp::GetSingletonPtr()->_world;
-
-		CDPRRayHitInfo hitInfo;
-		
-		Vector3 flockCenterForce = (_avgFlockCenter - _position).normalisedCopy();
-		CDPRRay ray(_position, flockCenterForce);
-		flockCenterForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitInfo);
-
-		Vector3 flockHeadingForce = _avgFlockHeading.normalisedCopy();
-		CDPRRay ray2(_position, flockHeadingForce);
-		flockHeadingForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitInfo);
-
-		Vector3 seperationHeadingForce = _seperationHeading.normalisedCopy();
-		CDPRRay ray3(_position, seperationHeadingForce);
-		seperationHeadingForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitInfo);
-
-		Vector3 redBallAvoidanceForce = _redBallAvoidance.normalisedCopy();
-		CDPRRay ray4(_position, redBallAvoidanceForce);
-		redBallAvoidanceForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitInfo);
-		
-		_velocity += flockCenterForce;
-		_velocity += flockHeadingForce;
-		_velocity += seperationHeadingForce;
-		_velocity += redBallAvoidanceForce * 10.0f;
-	}
 
 	bool headingForCollision = false;
 	
@@ -84,6 +58,45 @@ void CDPRBird::Move(const FrameEvent& evt)
 	
 	if(headingForCollision)
 		_velocity += collisionFreeWay.normalisedCopy() * 500.0f;
+
+	if (_numberOfPerceivedFlockMates > 0 && !headingForCollision) {
+	_avgFlockCenter /= (float)_numberOfPerceivedFlockMates;
+
+	CDPRWorld* _world = EnergiezApp::GetSingletonPtr()->_world;
+
+	CDPRRayHitInfo hitInfo;
+	
+	Vector3 flockCenterForce = (_avgFlockCenter - _position).normalisedCopy();
+	CDPRRay ray(_position, flockCenterForce);
+	_world->RayCollidingWithAnythingInWorld(ray, hitInfo);
+	flockCenterForce *= hitInfo.hitdistance >= _terrainCollisionDetectionRange;
+
+	Vector3 flockHeadingForce = _avgFlockHeading.normalisedCopy();
+	CDPRRay ray2(_position, flockHeadingForce);
+	_world->RayCollidingWithAnythingInWorld(ray2, hitInfo);
+	flockHeadingForce *= hitInfo.hitdistance >= _terrainCollisionDetectionRange;
+
+	Vector3 seperationHeadingForce = _seperationHeading.normalisedCopy();
+	CDPRRay ray3(_position, seperationHeadingForce);
+	_world->RayCollidingWithAnythingInWorld(ray3, hitInfo);
+	seperationHeadingForce *= hitInfo.hitdistance >= _terrainCollisionDetectionRange;
+
+	Vector3 redBallAvoidanceForce = _redBallAvoidance.normalisedCopy();
+	CDPRRay ray4(_position, redBallAvoidanceForce);
+	_world->RayCollidingWithAnythingInWorld(ray4, hitInfo);
+	redBallAvoidanceForce *= hitInfo.hitdistance >= _terrainCollisionDetectionRange;
+
+	Vector3 blackBallSuckInForce = _blackBallAvoidance.normalisedCopy();
+	CDPRRay ray5(_position, blackBallSuckInForce);
+	_world->RayCollidingWithAnythingInWorld(ray5, hitInfo);
+	blackBallSuckInForce *= hitInfo.hitdistance >= _terrainCollisionDetectionRange;
+	
+	_velocity += flockCenterForce;
+	_velocity += flockHeadingForce;
+	_velocity += seperationHeadingForce;
+	_velocity += redBallAvoidanceForce * 10.0f;
+	_velocity += blackBallSuckInForce * 2.0f;
+}
 
 	//Clamp to max speed
 	if(_velocity.squaredLength() > _maxSpeed * _maxSpeed)
@@ -121,8 +134,7 @@ Vector3 CDPRBird::FindBestCollisionFreeDirection(bool& headingForCollisiion)
 {
 	headingForCollisiion = false;
 	
-	int count = 300;
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < NumViewDirections; i++)
 	{
 
 		Vector3 dir = _birdSceneNode.getOrientation() * _birdManager._directions[i];
@@ -214,13 +226,27 @@ void CDPRBird::WatchFlockMates()
 void CDPRBird::WatchForRedBalls()
 {
 	_redBallAvoidance = Vector3::ZERO;
-	for(auto ball : EnergiezApp::GetSingletonPtr()->_playerManager->_spawnedBalls)
+	for(auto ball : EnergiezApp::GetSingletonPtr()->_playerManager->_spawnedRedBalls)
 	{
 		float sqrDst = _position.squaredDistance(ball->GetPosition());
 
 		if(sqrDst < _redBallDetectionDistance * _redBallDetectionDistance)
 		{
 			_redBallAvoidance += (_position - ball->GetPosition());
+		}
+	}
+}
+
+void CDPRBird::WatchForBlackBalls()
+{
+	_blackBallAvoidance = Vector3::ZERO;
+	for (auto ball : EnergiezApp::GetSingletonPtr()->_playerManager->_spawnedBlackBalls)
+	{
+		float sqrDst = _position.squaredDistance(ball->GetPosition());
+
+		if (sqrDst < _redBallDetectionDistance * _redBallDetectionDistance)
+		{
+			_blackBallAvoidance -= (_position - ball->GetPosition()) / Math::Clamp(1.0f/sqrDst, 0.1f, 100.0f) * ball->_blackHoleForce;
 		}
 	}
 }

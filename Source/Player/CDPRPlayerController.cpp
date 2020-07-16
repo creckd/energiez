@@ -37,12 +37,22 @@ bool CDPRPlayerController::mousePressed(const OgreBites::MouseButtonEvent& evt)
 	return false;
 }
 
-void CDPRPlayerController::RegisterProjectile(CDPRRedBall* ball)
+void CDPRPlayerController::RegisterRedBall(CDPRRedBall* ball)
 {
-	_spawnedBalls.push_back(ball);
+	_spawnedRedBalls.push_back(ball);
 }
 
-void CDPRPlayerController::UnRegisterProjectile(CDPRRedBall* ball)
+void CDPRPlayerController::UnRegisterRedBall(CDPRRedBall* ball)
 {
-	_spawnedBalls.erase(std::remove(_spawnedBalls.begin(), _spawnedBalls.end(), ball), _spawnedBalls.end());
+	_spawnedRedBalls.erase(std::remove(_spawnedRedBalls.begin(), _spawnedRedBalls.end(), ball), _spawnedRedBalls.end());
+}
+
+void CDPRPlayerController::RegisterBlackBall(CDPRBlackBall* ball)
+{
+	_spawnedBlackBalls.push_back(ball);
+}
+
+void CDPRPlayerController::UnRegisterBlackBall(CDPRBlackBall* ball)
+{
+	_spawnedBlackBalls.erase(std::remove(_spawnedBlackBalls.begin(), _spawnedBlackBalls.end(), ball), _spawnedBlackBalls.end());
 }
