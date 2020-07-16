@@ -8,40 +8,52 @@ using namespace Ogre;
 void CDPRBirdManager::Initialize()
 {
 	CalculateSpherePointsForBirds();
+	
+	_mainSceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
+	_birdRootNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode("BirdsRoot");
+
+	_birdMeshResource = MeshManager::getSingleton().load(BirdMeshResource, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	_birdMeshResource->buildEdgeList();
+}
+
+void CDPRBirdManager::SpawnBird(Vector3 spawnPosiiton)
+{
+	Ogre::Entity* spawnedBirdEntity = _mainSceneManager->createEntity(_birdMeshResource);
+	spawnedBirdEntity->setMaterialName(BirdMaterialResource);
+	spawnedBirdEntity->setCastShadows(true);
+
+	SceneNode* spawnedSceneNode = _birdRootNode->createChildSceneNode();
+
+	spawnedSceneNode->setPosition(spawnPosiiton);
+	spawnedSceneNode->attachObject(spawnedBirdEntity);
+	spawnedSceneNode->setScale(Vector3::UNIT_SCALE);
+
+	CDPRBird* spawnedBird = new CDPRBird(*this, *spawnedBirdEntity, *spawnedSceneNode);
+	spawnedBird->Initialize();
+
+	_spawnedBirds.push_back(spawnedBird);
 }
 
 void CDPRBirdManager::SpawnBirds(int amountOfBirds)
 {
-	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
-	SceneNode* birdsRootNode = sceneManager->getRootSceneNode()->createChildSceneNode("BirdsRoot");
-
-	Ogre::MeshPtr mMesh = MeshManager::getSingleton().load(BirdMeshResource, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-	mMesh->buildEdgeList();
+	CDPRWorld* world = EnergiezApp::GetSingletonPtr()->_world;
 	
 	for(int i=0;i<amountOfBirds;i++)
 	{
-		Ogre::Entity* spawnedBirdEntity = sceneManager->createEntity(mMesh);
-		spawnedBirdEntity->setMaterialName(BirdMaterialResource);
-		spawnedBirdEntity->setCastShadows(true);
-
-		SceneNode* spawnedSceneNode = birdsRootNode->createChildSceneNode();
-
-		CDPRWorld* world = EnergiezApp::GetSingletonPtr()->_world;
-		
-		//Vector3 spawnVector = Vector3(4,1.5,-50);
 		Vector3 spawnVector = GetRandomSpawnPointInWorld();
-		
+
 		while (world->PointInAnyCollisionBoxInWorld(spawnVector))
 			spawnVector = GetRandomSpawnPointInWorld();
-		
-		spawnedSceneNode->setPosition(spawnVector);
-		spawnedSceneNode->attachObject(spawnedBirdEntity);
-		spawnedSceneNode->setScale(Vector3::UNIT_SCALE);
 
-		CDPRBird* spawnedBird = new CDPRBird(*this, *spawnedBirdEntity, *spawnedSceneNode);
-		spawnedBird->Initialize();
-		
-		_spawnedBirds.push_back(spawnedBird);
+		SpawnBird(spawnVector);
+	}
+}
+
+void CDPRBirdManager::SpawnBirdsAtCustomSpawnPoint(int amountOfBirds, Vector3 spawnPoint)
+{
+	for (int i = 0; i < amountOfBirds; i++)
+	{
+		SpawnBird(spawnPoint);
 	}
 }
 

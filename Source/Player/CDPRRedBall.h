@@ -24,5 +24,6 @@ public:
 	float _growthAmountPerKill = 0.05f;
 	float _chargeSpeed = 5.0f;
 private:
+	float _initialVelocityPreference = 1.0f;
 	int _numberOfBirdConsumed = 0;
 };

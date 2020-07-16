@@ -113,7 +113,7 @@ void CDPRProjectile::CollisionCheck()
 				Vector3 boundingBoxCenter = (hitInfo.hitBounds[0] + hitInfo.hitBounds[1]) / 2;
 
 				Vector3 closestNormal = Vector3::UNIT_Z;
-				float smallestDot = ((boundingBoxCenter - Vector3::ZERO).normalisedCopy()).dotProduct(closestNormal);
+				float smallestDot = ((boundingBoxCenter - Vector3(0,boundingBoxCenter.y,0)).normalisedCopy()).dotProduct(closestNormal);
 
 				Vector3 testAxises[6] = { Vector3::UNIT_Z, Vector3::NEGATIVE_UNIT_Z,
 					Vector3::UNIT_X, Vector3::NEGATIVE_UNIT_X,
@@ -122,7 +122,7 @@ void CDPRProjectile::CollisionCheck()
 
 				for (int i = 0; i < 6; i++)
 				{
-					float currentDot = ((boundingBoxCenter - Vector3::ZERO).normalisedCopy()).dotProduct(testAxises[i]);
+					float currentDot = ((boundingBoxCenter - Vector3(0, boundingBoxCenter.y, 0)).normalisedCopy()).dotProduct(testAxises[i]);
 					if (currentDot <= smallestDot)
 					{
 						smallestDot = currentDot;

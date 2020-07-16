@@ -251,6 +251,9 @@ void CDPRWorld::BuildWalls()
 	_backWallBounds[0] = backWallCenter - backWallScale;
 	_backWallBounds[1] = backWallCenter + backWallScale;
 
+	//High invisible collision walls
+	_backWallBounds[1].y *= 100.0f;
+
 	// Front Wall
 	
 	Entity* wallEntity2 = sceneManager->createEntity(mMesh);
@@ -268,7 +271,10 @@ void CDPRWorld::BuildWalls()
 
 	_frontWallBounds[0] = frontWallCenter - frontWallScale;
 	_frontWallBounds[1] = frontWallCenter + frontWallScale;
-
+	
+	//High invisible collision walls
+	_frontWallBounds[1].y *= 100.0f;
+	
 	// Left Wall
 
 	Entity* wallEntity3 = sceneManager->createEntity(mMesh);
@@ -287,6 +293,9 @@ void CDPRWorld::BuildWalls()
 	_leftWallBounds[0] = leftWallCenter - leftWallScale;
 	_leftWallBounds[1] = leftWallCenter + leftWallScale;
 
+	//High invisible collision walls
+	_leftWallBounds[1].y *= 100.0f;
+
 	// Right Wall
 
 	Entity* wallEntity4 = sceneManager->createEntity(mMesh);
@@ -304,4 +313,7 @@ void CDPRWorld::BuildWalls()
 
 	_rightWallBounds[0] = rightWallCenter - rightWallScale;
 	_rightWallBounds[1] = rightWallCenter + rightWallScale;
+
+	//High invisible collision walls
+	_rightWallBounds[1].y *= 100.0f;
 }
