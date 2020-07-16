@@ -8,7 +8,7 @@
 
 CDPRGameInstance *CDPRGameInstance::_instance = nullptr;
 
-CDPRGameInstance::CDPRGameInstance() : OgreBites::ApplicationContext("Energiez")
+CDPRGameInstance::CDPRGameInstance() : OgreBites::ApplicationContext("CDPR Project")
 {
 	_instance = this;
 }
@@ -22,16 +22,12 @@ void CDPRGameInstance::setup()
 {
 	OgreBites::ApplicationContext::setup();
 
+	
 	addInputListener(this);
-	Ogre::Root* root = getRoot();
 	setWindowGrab(true);
-
+	
+	Ogre::Root* root = getRoot();
 	_mainSceneManager = root->createSceneManager();
-
-	_mainSceneManager->setSkyDome(true, "CloudySky", 5, 8);
-
-	_mainSceneManager->setAmbientLight(ColourValue(1, 1, 1));
-	_mainSceneManager->setShadowTechnique(ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	Ogre::RTShader::ShaderGenerator* shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
 	shadergen->addSceneManager(_mainSceneManager);
@@ -50,13 +46,19 @@ void CDPRGameInstance::setup()
 	_uiManager = new CDPRUIManager();
 	_uiManager->Initialize();
 
+	// SETUP BIRDS
+
 	_birdManager = new CDPRBirdManager();
 	_birdManager->Initialize();
 	_birdManager->SpawnBirds(500);
 
+	// SETUP PLAYER
+
 	_playerManager = new CDPRPlayerController();
 	_playerManager->Initialize();
 	addInputListener(_playerManager);
+
+	// SKYBOX AND LIGHTS
 
 	Light* directionalLight = _mainSceneManager->createLight("DirectionalLight");
 	directionalLight->setType(Light::LT_DIRECTIONAL);
@@ -66,6 +68,11 @@ void CDPRGameInstance::setup()
 	SceneNode* directionalLightNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode();
 	directionalLightNode->attachObject(directionalLight);
 	directionalLightNode->setDirection(0, -0.83, 0.75);
+
+	_mainSceneManager->setSkyDome(true, "CloudySky", 5, 8);
+
+	_mainSceneManager->setAmbientLight(ColourValue(1, 1, 1));
+	_mainSceneManager->setShadowTechnique(ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
 }
 

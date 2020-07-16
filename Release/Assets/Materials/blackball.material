@@ -4,8 +4,8 @@ material blackball
        {
            pass
            {
-               ambient 0.0 0.25 0.0
-               diffuse 0.0 0.25 0.0
+               ambient 0.0 0.0 0.0
+               diffuse 0.0 0.0 0.0
                emissive 0.0 0.0 0.0 1
                //specular 0 0 0
            }
