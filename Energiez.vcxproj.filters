@@ -66,6 +66,12 @@
     <ClCompile Include="Source\Player\CDPRRedBall.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player\CDPRBlackBall.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player\CDPRProjectile.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EnergiezApp.h">
@@ -99,6 +105,12 @@
       <Filter>Source Files\Player</Filter>
     </ClInclude>
     <ClInclude Include="Source\Player\CDPRRedBall.h">
+      <Filter>Source Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\CDPRBlackBall.h">
+      <Filter>Source Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\CDPRProjectile.h">
       <Filter>Source Files\Player</Filter>
     </ClInclude>
   </ItemGroup>

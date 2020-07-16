@@ -14,29 +14,52 @@ void CDPRWorld::CreateWorld()
 	BuildTerrain();
 }
 
-bool CDPRWorld::RayCollidingWithAnythingInWorld(CDPRRay& ray, float& hitAtDistance)
+bool CDPRWorld::RayCollidingWithAnythingInWorld(CDPRRay& ray, CDPRRayHitInfo& hitInfo)
 {
+	bool foundAtLeastOneCollision = false;
+	float currentClosestHitDistance = 0.0f;
 	//Check for world bounds collision
 	//if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_worldCollisionBounds, ray, hitAtDistance))
 	//{
 	//	return true;
 	//}
+	float hitAtDistance;
 
 	//Check for terrain collision
 	if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, hitAtDistance))
 	{
-		return true;
-	}
+		if (foundAtLeastOneCollision && hitAtDistance <= currentClosestHitDistance || !foundAtLeastOneCollision) {
+			hitInfo.hitBounds[0] = EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds[0];
+			hitInfo.hitBounds[1] = EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds[1];
+			hitInfo.hitdistance = hitAtDistance;
+			hitInfo.hitPoint = ray.orig + ray.dir.normalisedCopy() * hitInfo.hitdistance;
+			hitInfo.hitObjectType = EHitObjectType::Terrain;
 
+			currentClosestHitDistance = hitAtDistance;
+
+			foundAtLeastOneCollision = true;
+		}
+	}
+	
 	//Check for every skyscraper collision
 	for (CDPRSkyScraper* skyScraper : EnergiezApp::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
 		if (CDPRPhysics::RaycastBoxBounds(skyScraper->_boxBoundPoints, ray, hitAtDistance))
 		{
-			return true;
+			if (foundAtLeastOneCollision && hitAtDistance <= currentClosestHitDistance || !foundAtLeastOneCollision) {
+				hitInfo.hitBounds[0] = skyScraper->_boxBoundPoints[0];
+					hitInfo.hitBounds[1] = skyScraper->_boxBoundPoints[1];
+					hitInfo.hitdistance = hitAtDistance;
+					hitInfo.hitPoint = ray.orig + ray.dir.normalisedCopy() * hitInfo.hitdistance;
+					hitInfo.hitObjectType = EHitObjectType::SkyScraper;
+
+					currentClosestHitDistance = hitAtDistance;
+
+					foundAtLeastOneCollision = true;
+			}
 		}
 	}
 
-	return false;
+	return foundAtLeastOneCollision;
 }
 
 bool CDPRWorld::PointInAnyCollisionBoxInWorld(Vector3 point)

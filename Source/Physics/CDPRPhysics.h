@@ -21,6 +21,23 @@ public:
 	int sign[3];
 };
 
+enum EHitObjectType
+{
+	None,
+	SkyScraper,
+	WorldBounds,
+	Terrain
+};
+
+struct CDPRRayHitInfo
+{
+public:
+	Vector3 hitBounds[2];
+	Vector3 hitPoint;
+	float hitdistance;
+	EHitObjectType hitObjectType;
+};
+
 class CDPRPhysics
 {
 public:

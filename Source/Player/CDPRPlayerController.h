@@ -15,5 +15,6 @@ public:
 	void UnRegisterProjectile(CDPRRedBall* ball);
 public:
 	float _redBallShootingForce = 1.0f;
+	float _blackBallShootingForce = 1.0f;
 	std::vector<CDPRRedBall*> _spawnedBalls;
 };

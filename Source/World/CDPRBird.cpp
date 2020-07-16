@@ -54,23 +54,23 @@ void CDPRBird::Move(const FrameEvent& evt)
 
 		CDPRWorld* _world = EnergiezApp::GetSingletonPtr()->_world;
 
-		float hitDistance;
+		CDPRRayHitInfo hitInfo;
 		
 		Vector3 flockCenterForce = (_avgFlockCenter - _position).normalisedCopy();
 		CDPRRay ray(_position, flockCenterForce);
-		flockCenterForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitDistance);
+		flockCenterForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitInfo);
 
 		Vector3 flockHeadingForce = _avgFlockHeading.normalisedCopy();
 		CDPRRay ray2(_position, flockHeadingForce);
-		flockHeadingForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitDistance);
+		flockHeadingForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitInfo);
 
 		Vector3 seperationHeadingForce = _seperationHeading.normalisedCopy();
 		CDPRRay ray3(_position, seperationHeadingForce);
-		seperationHeadingForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitDistance);
+		seperationHeadingForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitInfo);
 
 		Vector3 redBallAvoidanceForce = _redBallAvoidance.normalisedCopy();
 		CDPRRay ray4(_position, redBallAvoidanceForce);
-		redBallAvoidanceForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitDistance);
+		redBallAvoidanceForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitInfo);
 		
 		_velocity += flockCenterForce;
 		_velocity += flockHeadingForce;

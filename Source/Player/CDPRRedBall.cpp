@@ -6,48 +6,67 @@
 #include "World/CDPRBird.h"
 #include "CDPRPlayerController.h"
 
-CDPRRedBall::CDPRRedBall(CDPRPlayerController* playerControllerReference) : _playerController(playerControllerReference)
+
+CDPRRedBall::CDPRRedBall(CDPRPlayerController* playerController) : CDPRProjectile(playerController, "icosphere.mesh", "redball")
 {
-	_playerController->RegisterProjectile(this);
+
 }
 
 void CDPRRedBall::Initalize()
 {
-	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
-
-	_projectileEntity = sceneManager->createEntity(MeshResourceName);
-	_projectileEntity->setMaterialName(MaterialResourceName);
-	_projectileEntity->setCastShadows(true);
-	_projectileEntity->setVisible(false);
-
-	_projectileNode = sceneManager->getRootSceneNode()->createChildSceneNode();
-
-	CDPRWorld* world = EnergiezApp::GetSingletonPtr()->_world;
-	;
-	_projectileNode->attachObject(_projectileEntity);
-	_projectileNode->setScale(Vector3::UNIT_SCALE);
-	_defaultScale = _projectileNode->getScale();
-	EnergiezApp::GetSingletonPtr()->RegisterFrameListener(this);
-
-	_currentEnergy = _startingEnergy;
+	CDPRProjectile::Initalize();
+	
+	_playerController->RegisterProjectile(this);
 }
 
-void CDPRRedBall::Shoot(Vector3&origin, Vector3& direction, float force)
+void CDPRRedBall::Update(float deltaTime)
 {
-	_projectileNode->setPosition(origin);
-	_projectileEntity->setVisible(true);
-	_projectileFlying = true;
-	_velocity = direction * force;
-}
+	CDPRProjectile::Update(deltaTime);
+	
+	if (_projectileFlying) {
 
-void CDPRRedBall::Simulate(float deltaTime)
-{
-	Vector3 zeroVector = Vector3::ZERO;
-	if (_velocity.squaredLength() > 0.1f)
-		_velocity = CDPRMathHelper::Vector3Lerp(_velocity, zeroVector, deltaTime * _dragAmount);
-	else _velocity = zeroVector;
+		if (_currentEnergy <= 0.0f)
+		{
+			Explode();
+			return;
+		}
 
-	_projectileNode->translate(_velocity);
+		CDPRBirdManager* birdManager = EnergiezApp::GetSingletonPtr()->_birdManager;
+		CDPRBird* closestBird = birdManager->_spawnedBirds[0];
+		float closestDst = closestBird->_position.distance(_projectileNode->getPosition());
+		for (auto bird : birdManager->_spawnedBirds)
+		{
+			if (bird == closestBird)
+				continue;
+
+			float currentDst = bird->_position.distance(_projectileNode->getPosition());
+			if (currentDst <= closestDst)
+			{
+				closestBird = bird;
+				closestDst = currentDst;
+			}
+		}
+
+		if (closestDst <= _harmfulRange)
+		{
+			Consume(closestBird);
+			if (_numberOfBirdConsumed >= _maxNumberOfBirdsConsumableBeforeExplode)
+				Explode();
+		}
+		else if (closestDst <= _aggroRange)
+		{
+			if (_currentEnergy >= 0) {
+				float boostForce = deltaTime;
+				_velocity += (closestBird->_position - _projectileNode->getPosition()).normalisedCopy() * boostForce;
+				_currentEnergy = Math::Clamp(_currentEnergy - boostForce, 0.0f, Math::POS_INFINITY);
+			}
+		}
+
+		_projectileNode->setScale(_defaultScale * _currentEnergy);
+
+		if (_velocity.length() <= 0.5f)
+			_currentEnergy -= deltaTime;
+	}
 }
 
 void CDPRRedBall::Explode()
@@ -65,59 +84,4 @@ void CDPRRedBall::Consume(CDPRBird* birdToConsume)
 	_numberOfBirdConsumed++;
 	_currentEnergy += 1.0f;
 	birdToConsume->Kill();
-}
-
-Vector3 CDPRRedBall::GetPosition()
-{
-	return _projectileNode->getPosition();
-}
-
-bool CDPRRedBall::frameStarted(const FrameEvent& evt)
-{
-	if (_projectileFlying) {
-		Simulate(evt.timeSinceLastFrame);
-
-		if(_currentEnergy <= 0.0f)
-		{
-			Explode();
-			return true;
-		}
-
-		CDPRBirdManager* birdManager = EnergiezApp::GetSingletonPtr()->_birdManager;
-		CDPRBird* closestBird = birdManager->_spawnedBirds[0];
-		float closestDst = closestBird->_position.distance(_projectileNode->getPosition());
-		for (auto bird : birdManager->_spawnedBirds)
-		{
-			if (bird == closestBird)
-				continue;
-
-			float currentDst = bird->_position.distance(_projectileNode->getPosition());
-			if(currentDst <= closestDst)
-			{
-				closestBird = bird;
-				closestDst = currentDst;
-			}
-		}
-
-		if(closestDst <= _harmfulRange)
-		{
-			Consume(closestBird);
-			if (_numberOfBirdConsumed >= _maxNumberOfBirdsConsumableBeforeExplode)
-				Explode();
-		} else if(closestDst <= _aggroRange)
-		{
-			if (_currentEnergy >= 0) {
-				float boostForce = evt.timeSinceLastFrame;
-				_velocity += (closestBird->_position - _projectileNode->getPosition()).normalisedCopy() * boostForce;
-				_currentEnergy = Math::Clamp(_currentEnergy - boostForce,0.0f,Math::POS_INFINITY);
-			}
-		}
-
-		_projectileNode->setScale(_defaultScale * _currentEnergy);
-
-		if (_velocity.length() <= 0.5f)
-			_currentEnergy -= evt.timeSinceLastFrame;
-	}
-
-	return true;
 }

@@ -10,7 +10,7 @@ class CDPRWorld
 public:
 	void CreateWorld();
 
-	bool RayCollidingWithAnythingInWorld(CDPRRay& ray, float& hitAtDistance);
+	bool RayCollidingWithAnythingInWorld(CDPRRay& ray, CDPRRayHitInfo& hitInfo);
 	bool PointInAnyCollisionBoxInWorld(Vector3 point);
 
 	std::vector<CDPRSkyScraper*> GetSpawnedSkyScrapers() { return _spawnedSkyScrapers; }
