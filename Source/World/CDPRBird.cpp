@@ -1,6 +1,6 @@
 #include "CDPRBird.h"
 #include "CDPRBirdManager.h"
-#include "Core/EnergiezApp.h"
+#include "Core/CDPRGameInstance.h"
 #include "Physics/CDPRPhysics.h"
 #include "World/CDPRWorld.h"
 #include "Math/CDPRMathHelper.h"
@@ -15,7 +15,7 @@ CDPRBird::CDPRBird(CDPRBirdManager& managerReference, Entity& birdEntity, SceneN
 
 void CDPRBird::Initialize()
 {
-	EnergiezApp::GetSingletonPtr()->RegisterFrameListener(this);
+	CDPRGameInstance::GetSingletonPtr()->RegisterFrameListener(this);
 
 	_defaultSpawnPoint = _birdSceneNode.getPosition();
 	
@@ -29,9 +29,9 @@ void CDPRBird::Initialize()
 void CDPRBird::Kill()
 {
 	_birdSceneNode.detachAllObjects();
-	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroyEntity(&_birdEntity);
-	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroySceneNode(&_birdSceneNode);
-	EnergiezApp::GetSingletonPtr()->UnRegisterFrameListener(this);
+	CDPRGameInstance::GetSingletonPtr()->_mainSceneManager->destroyEntity(&_birdEntity);
+	CDPRGameInstance::GetSingletonPtr()->_mainSceneManager->destroySceneNode(&_birdSceneNode);
+	CDPRGameInstance::GetSingletonPtr()->UnRegisterFrameListener(this);
 	_birdManager._spawnedBirds.erase(std::remove(_birdManager._spawnedBirds.begin(), _birdManager._spawnedBirds.end(), this), _birdManager._spawnedBirds.end());
 	delete this;
 }
@@ -62,7 +62,7 @@ void CDPRBird::Move(const FrameEvent& evt)
 	if (_numberOfPerceivedFlockMates > 0 && !headingForCollision) {
 	_avgFlockCenter /= (float)_numberOfPerceivedFlockMates;
 
-	CDPRWorld* _world = EnergiezApp::GetSingletonPtr()->_world;
+	CDPRWorld* _world = CDPRGameInstance::GetSingletonPtr()->_world;
 
 	CDPRRayHitInfo hitInfo;
 	
@@ -112,7 +112,6 @@ void CDPRBird::Move(const FrameEvent& evt)
 		_velocity *= _minSpeed;
 	}
 	
-	//_velocity = CDPRMathHelper::Vector3Lerp(_velocity, FindBestCollisionFreeDirection(), evt.timeSinceLastFrame * 100.0f);
 	_birdSceneNode.translate(_velocity * evt.timeSinceLastFrame, Node::TS_WORLD);
 	
 	Quaternion curentRotation = _birdSceneNode.getOrientation();
@@ -145,7 +144,7 @@ Vector3 CDPRBird::FindBestCollisionFreeDirection(bool& headingForCollisiion)
 		float distance;
 
 		//Check for world bounds collision
-		if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_worldCollisionBounds, ray, distance))
+		if (CDPRPhysics::RaycastBoxBounds(CDPRGameInstance::GetSingletonPtr()->_world->_worldCollisionBounds, ray, distance))
 		{
 			if (distance < _terrainCollisionDetectionRange) {
 				collision = true;
@@ -153,7 +152,7 @@ Vector3 CDPRBird::FindBestCollisionFreeDirection(bool& headingForCollisiion)
 		}
 
 		//Check for terrain collision
-		//if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, distance))
+		//if (CDPRPhysics::RaycastBoxBounds(CDPRGameInstance::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, distance))
 		//{
 		//	if (distance < _terrainCollisionDetectionRange) {
 		//		collision = true;
@@ -162,7 +161,7 @@ Vector3 CDPRBird::FindBestCollisionFreeDirection(bool& headingForCollisiion)
 
 		//Check for every skyscraper collision
 		if (!collision) {
-			for (CDPRSkyScraper* skyScraper : EnergiezApp::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
+			for (CDPRSkyScraper* skyScraper : CDPRGameInstance::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
 				//Quick workaround for Bird bounding box
 				//Vector3 extendedBounds[2];
 				//extendedBounds[0] = skyScraper->_boxBoundPoints[0];
@@ -226,7 +225,7 @@ void CDPRBird::WatchFlockMates()
 void CDPRBird::WatchForRedBalls()
 {
 	_redBallAvoidance = Vector3::ZERO;
-	for(auto ball : EnergiezApp::GetSingletonPtr()->_playerManager->_spawnedRedBalls)
+	for(auto ball : CDPRGameInstance::GetSingletonPtr()->_playerManager->_spawnedRedBalls)
 	{
 		float sqrDst = _position.squaredDistance(ball->GetPosition());
 
@@ -240,7 +239,7 @@ void CDPRBird::WatchForRedBalls()
 void CDPRBird::WatchForBlackBalls()
 {
 	_blackBallAvoidance = Vector3::ZERO;
-	for (auto ball : EnergiezApp::GetSingletonPtr()->_playerManager->_spawnedBlackBalls)
+	for (auto ball : CDPRGameInstance::GetSingletonPtr()->_playerManager->_spawnedBlackBalls)
 	{
 		float sqrDst = _position.squaredDistance(ball->GetPosition());
 

@@ -1,6 +1,6 @@
 #include "World/CDPRSkyScraper.h"
 
-#include "Core/EnergiezApp.h"
+#include "Core/CDPRGameInstance.h"
 #include "Math/CDPRMathHelper.h"
 
 CDPRSkyScraper::CDPRSkyScraper(SceneManager* mainSceneManager, SceneNode* cityRoot, int skyScraperHeight)
@@ -34,7 +34,7 @@ void CDPRSkyScraper::Spawn(Vector3 localPosition, float worldSpaceWidth)
 	//	_spawnedBlocks.push_back(new CDPRSkyScraperBlock(spawnedSceneNode, spawnedSkyScraper));
 	//}
 
-	EnergiezApp::GetSingletonPtr()->RegisterFrameListener(this);
+	CDPRGameInstance::GetSingletonPtr()->RegisterFrameListener(this);
 
 	_targetHeight = _currentHeight;
 	_currentHeight = 0;
@@ -121,8 +121,8 @@ void CDPRSkyScraper::Update(float deltaTime)
 void CDPRSkyScraper::DestroyBlock(CDPRSkyScraperBlock* block)
 {
 	block->_node->detachAllObjects();
-	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroyEntity(block->_entity);
-	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroySceneNode(block->_node);
+	CDPRGameInstance::GetSingletonPtr()->_mainSceneManager->destroyEntity(block->_entity);
+	CDPRGameInstance::GetSingletonPtr()->_mainSceneManager->destroySceneNode(block->_node);
 	delete block;
 }
 

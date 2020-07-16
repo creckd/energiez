@@ -1,7 +1,7 @@
 #include "CDPRPlayerController.h"
 #include "CDPRRedBall.h"
 #include "CDPRBlackBall.h"
-#include "Core/EnergiezApp.h"
+#include "Core/CDPRGameInstance.h"
 #include "Camera/CDPRCameraController.h"
 
 
@@ -13,7 +13,7 @@ bool CDPRPlayerController::mousePressed(const OgreBites::MouseButtonEvent& evt)
 {
 	//Left Click
 	if (evt.button == 1) {
-		CDPRCameraController* cameraController = EnergiezApp::GetSingletonPtr()->_cameraController;
+		CDPRCameraController* cameraController = CDPRGameInstance::GetSingletonPtr()->_cameraController;
 
 		CDPRRedBall* redBallProjectile = new CDPRRedBall(this);
 		redBallProjectile->Initalize();
@@ -24,7 +24,7 @@ bool CDPRPlayerController::mousePressed(const OgreBites::MouseButtonEvent& evt)
 	//Right Click
 	} else if(evt.button == 3)
 	{
-		CDPRCameraController* cameraController = EnergiezApp::GetSingletonPtr()->_cameraController;
+		CDPRCameraController* cameraController = CDPRGameInstance::GetSingletonPtr()->_cameraController;
 
 		CDPRBlackBall* blackBallProjectile = new CDPRBlackBall(this);
 		blackBallProjectile->Initalize();

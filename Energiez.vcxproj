@@ -56,25 +56,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Work\Probamunka\Empty\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\Release</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Energiez.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Energiez</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Work\Probamunka\Empty\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\Release</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Energiez.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Energiez</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Work\Probamunka\Empty\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(SolutionDir)\Release</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Energiez.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Energiez</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Work\Probamunka\Empty\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(SolutionDir)\Release</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Energiez.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Energiez</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
@@ -83,7 +83,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;$(SolutionDir)\sdk\include\OGRE\Bites;$(SolutionDir)\sdk\include\OGRE;$(SolutionDir)\sdk\include\OGRE\Overlay;$(SolutionDir)\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -112,13 +112,13 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>D:\Work\Probamunka\Ogre64\sdk\lib\OgreBites.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreRTShaderSystem.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreOverlay.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreMain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\sdk\lib\OgreBites.lib;$(SolutionDir)\sdk\lib\OgreRTShaderSystem.lib;$(SolutionDir)\sdk\lib\OgreOverlay.lib;$(SolutionDir)\sdk\lib\OgreMain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>D:/Work/Probamunka/Empty/Debug/Energiez.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/Work/Probamunka/Empty/Debug/Energiez.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(SolutionDir)/Release/Energiez.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -130,7 +130,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;$(SolutionDir)\sdk\include\OGRE\Bites;$(SolutionDir)\sdk\include\OGRE;$(SolutionDir)\sdk\include\OGRE\Overlay;$(SolutionDir)\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -159,13 +159,13 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>D:\Work\Probamunka\Ogre64\sdk\lib\OgreBites.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreRTShaderSystem.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreOverlay.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreMain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\sdk\lib\OgreBites.lib;$(SolutionDir)\sdk\lib\OgreRTShaderSystem.lib;$(SolutionDir)\sdk\lib\OgreOverlay.lib;$(SolutionDir)\sdk\lib\OgreMain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>D:/Work/Probamunka/Empty/Release/Energiez.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/Work/Probamunka/Empty/Release/Energiez.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(SolutionDir)/Release/Energiez.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -177,7 +177,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;$(SolutionDir)\sdk\include\OGRE\Bites;$(SolutionDir)\sdk\include\OGRE;$(SolutionDir)\sdk\include\OGRE\Overlay;$(SolutionDir)\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -206,13 +206,13 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>D:\Work\Probamunka\Ogre64\sdk\lib\OgreBites.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreRTShaderSystem.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreOverlay.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreMain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\sdk\lib\OgreBites.lib;$(SolutionDir)\sdk\lib\OgreRTShaderSystem.lib;$(SolutionDir)\sdk\lib\OgreOverlay.lib;$(SolutionDir)\sdk\lib\OgreMain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>D:/Work/Probamunka/Empty/MinSizeRel/Energiez.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/Work/Probamunka/Empty/MinSizeRel/Energiez.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(SolutionDir)/Release/Energiez.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -224,7 +224,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Bites;D:\Work\Probamunka\Ogre64\sdk\include\OGRE;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\Overlay;D:\Work\Probamunka\Ogre64\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;$(SolutionDir)\sdk\include\OGRE\Bites;$(SolutionDir)\sdk\include\OGRE;$(SolutionDir)\sdk\include\OGRE\Overlay;$(SolutionDir)\sdk\include\OGRE\RTShaderSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -252,13 +252,13 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>D:\Work\Probamunka\Ogre64\sdk\lib\OgreBites.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreRTShaderSystem.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreOverlay.lib;D:\Work\Probamunka\Ogre64\sdk\lib\OgreMain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\sdk\lib\OgreBites.lib;$(SolutionDir)\sdk\lib\OgreRTShaderSystem.lib;$(SolutionDir)\sdk\lib\OgreOverlay.lib;$(SolutionDir)\sdk\lib\OgreMain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>D:/Work/Probamunka/Empty/RelWithDebInfo/Energiez.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/Work/Probamunka/Empty/RelWithDebInfo/Energiez.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(SolutionDir)/Release/Energiez.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -326,7 +326,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera\CDPRCameraController.cpp" />
-    <ClCompile Include="Source\Core\EnergiezApp.cpp" />
+    <ClCompile Include="Source\Core\CDPRGameInstance.cpp" />
     <ClCompile Include="Source\Core\Main.cpp" />
     <ClCompile Include="Source\Math\CDPRMathHelper.cpp" />
     <ClCompile Include="Source\Physics\CDPRPhysics.cpp" />
@@ -342,7 +342,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\CDPRCameraController.h" />
-    <ClInclude Include="Source\Core\EnergiezApp.h" />
+    <ClInclude Include="Source\Core\CDPRGameInstance.h" />
     <ClInclude Include="Source\Math\CDPRMathHelper.h" />
     <ClInclude Include="Source\Physics\CDPRPhysics.h" />
     <ClInclude Include="Source\Player\CDPRBlackBall.h" />

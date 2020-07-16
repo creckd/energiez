@@ -1,6 +1,6 @@
 #include "CDPRRedBall.h"
 
-#include "Core/EnergiezApp.h"
+#include "Core/CDPRGameInstance.h"
 #include "Math/CDPRMathHelper.h"
 #include "World/CDPRBirdManager.h"
 #include "World/CDPRBird.h"
@@ -31,7 +31,7 @@ void CDPRRedBall::Update(float deltaTime)
 			return;
 		}
 
-		CDPRBirdManager* birdManager = EnergiezApp::GetSingletonPtr()->_birdManager;
+		CDPRBirdManager* birdManager = CDPRGameInstance::GetSingletonPtr()->_birdManager;
 		CDPRBird* closestBird = birdManager->_spawnedBirds[0];
 		float closestDst = closestBird->_position.distance(_projectileNode->getPosition());
 		for (auto bird : birdManager->_spawnedBirds)
@@ -67,7 +67,7 @@ void CDPRRedBall::Update(float deltaTime)
 void CDPRRedBall::Explode()
 {
 	_playerController->UnRegisterRedBall(this);
-	EnergiezApp::GetSingletonPtr()->_birdManager->SpawnBirdsAtCustomSpawnPoint(_numberOfBirdConsumed, GetPosition());
+	CDPRGameInstance::GetSingletonPtr()->_birdManager->SpawnBirdsAtCustomSpawnPoint(_numberOfBirdConsumed, GetPosition());
 	Destroy();
 }
 

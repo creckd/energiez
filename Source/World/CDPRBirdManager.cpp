@@ -1,7 +1,7 @@
 #include "CDPRBirdManager.h"
-#include "Core/EnergiezApp.h"
 #include "World/CDPRWorld.h"
 #include "CDPRBird.h"
+#include "Core/CDPRGameInstance.h"
 
 using namespace Ogre;
 
@@ -9,7 +9,7 @@ void CDPRBirdManager::Initialize()
 {
 	CalculateSpherePointsForBirds();
 	
-	_mainSceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
+	_mainSceneManager = CDPRGameInstance::GetSingletonPtr()->_mainSceneManager;
 	_birdRootNode = _mainSceneManager->getRootSceneNode()->createChildSceneNode("BirdsRoot");
 
 	_birdMeshResource = MeshManager::getSingleton().load(BirdMeshResource, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
@@ -36,7 +36,7 @@ void CDPRBirdManager::SpawnBird(Vector3 spawnPosiiton)
 
 void CDPRBirdManager::SpawnBirds(int amountOfBirds)
 {
-	CDPRWorld* world = EnergiezApp::GetSingletonPtr()->_world;
+	CDPRWorld* world = CDPRGameInstance::GetSingletonPtr()->_world;
 	
 	for(int i=0;i<amountOfBirds;i++)
 	{
@@ -76,7 +76,7 @@ void CDPRBirdManager::CalculateSpherePointsForBirds()
 
 Vector3 CDPRBirdManager::GetRandomSpawnPointInWorld()
 {
-	CDPRWorld* world = EnergiezApp::GetSingletonPtr()->_world;
+	CDPRWorld* world = CDPRGameInstance::GetSingletonPtr()->_world;
 	
 	float worldWidth = Math::Abs(world->_worldCollisionBounds[0].x);
 	float worldHeight = Math::Abs(world->_worldCollisionBounds[1].y);

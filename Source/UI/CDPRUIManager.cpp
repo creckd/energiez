@@ -1,5 +1,5 @@
 #include "CDPRUIManager.h"
-#include "Core/EnergiezApp.h"
+#include "Core/CDPRGameInstance.h"
 #include "OgreOverlay.h"
 #include "OgreOverlaySystem.h"
 #include "OgreOverlayManager.h"
@@ -8,7 +8,7 @@
 
 void CDPRUIManager::Initialize()
 {
-	EnergiezApp* gameInstance = EnergiezApp::GetSingletonPtr();
+	CDPRGameInstance* gameInstance = CDPRGameInstance::GetSingletonPtr();
 	gameInstance->_mainSceneManager->addRenderQueueListener(gameInstance->getOverlaySystem());
 
 	CreateMainOverlay();

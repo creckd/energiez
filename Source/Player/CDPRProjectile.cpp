@@ -1,5 +1,5 @@
 #include "CDPRPRojectile.h"
-#include "Core/EnergiezApp.h"
+#include "Core/CDPRGameInstance.h"
 #include "Math/CDPRMathHelper.h"
 #include "Physics/CDPRPhysics.h"
 #include "World/CDPRWorld.h"
@@ -11,7 +11,7 @@ CDPRProjectile::CDPRProjectile(CDPRPlayerController* playerController, std::stri
 
 void CDPRProjectile::Initalize()
 {
-	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
+	SceneManager* sceneManager = CDPRGameInstance::GetSingletonPtr()->_mainSceneManager;
 
 	_projectileEntity = sceneManager->createEntity(_meshResourceName);
 	_projectileEntity->setMaterialName(_materialResourceName);
@@ -20,11 +20,11 @@ void CDPRProjectile::Initalize()
 
 	_projectileNode = sceneManager->getRootSceneNode()->createChildSceneNode();
 
-	CDPRWorld* world = EnergiezApp::GetSingletonPtr()->_world;
+	CDPRWorld* world = CDPRGameInstance::GetSingletonPtr()->_world;
 	;
 	_projectileNode->attachObject(_projectileEntity);
 	//_projectileNode->setScale(Vector3::UNIT_SCALE);
-	EnergiezApp::GetSingletonPtr()->RegisterFrameListener(this);
+	CDPRGameInstance::GetSingletonPtr()->RegisterFrameListener(this);
 }
 
 void CDPRProjectile::Update(float deltaTime)
@@ -48,9 +48,9 @@ void CDPRProjectile::Simulate(float deltaTime)
 void CDPRProjectile::Destroy()
 {
 	_projectileNode->detachAllObjects();
-	EnergiezApp::GetSingletonPtr()->UnRegisterFrameListener(this);
-	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroyEntity(_projectileEntity);
-	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroySceneNode(_projectileNode);
+	CDPRGameInstance::GetSingletonPtr()->UnRegisterFrameListener(this);
+	CDPRGameInstance::GetSingletonPtr()->_mainSceneManager->destroyEntity(_projectileEntity);
+	CDPRGameInstance::GetSingletonPtr()->_mainSceneManager->destroySceneNode(_projectileNode);
 	delete this;
 }
 
@@ -78,7 +78,7 @@ void CDPRProjectile::CollisionCheck()
 	CDPRRayHitInfo hitInfo;
 	CDPRRay ray(GetPosition(), _velocity.normalisedCopy());
 
-	if (EnergiezApp::GetSingletonPtr()->_world->RayCollidingWithAnythingInWorld(ray, hitInfo))
+	if (CDPRGameInstance::GetSingletonPtr()->_world->RayCollidingWithAnythingInWorld(ray, hitInfo))
 	{
 		if (hitInfo.hitdistance <= _colliderSize) {
 			if (hitInfo.hitObjectType == EHitObjectType::SkyScraper)

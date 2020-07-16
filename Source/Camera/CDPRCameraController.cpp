@@ -1,11 +1,11 @@
 #include "CDPRCameraController.h"
-#include "Core/EnergiezApp.h"
+#include "Core/CDPRGameInstance.h"
 #include "Physics/CDPRPhysics.h"
 #include "World/CDPRWorld.h"
 
 void CDPRCameraController::Initialize()
 {
-	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
+	SceneManager* sceneManager = CDPRGameInstance::GetSingletonPtr()->_mainSceneManager;
 	
 	_cameraNode = sceneManager->getRootSceneNode()->createChildSceneNode("MainCameraNode");
 	_cameraNode->setPosition(0, _characterHeight, -40);
@@ -22,7 +22,7 @@ void CDPRCameraController::Initialize()
 
 	_cameraYawNode->lookAt(Ogre::Vector3(0, _characterHeight, 40), Ogre::Node::TS_WORLD);
 
-	Viewport* vp = EnergiezApp::GetSingletonPtr()->getRenderWindow()->addViewport(_mainCamera);
+	Viewport* vp = CDPRGameInstance::GetSingletonPtr()->getRenderWindow()->addViewport(_mainCamera);
 }
 
 void CDPRCameraController::MouseInput(float x, float y)
@@ -45,7 +45,7 @@ bool CDPRCameraController::frameStarted(const FrameEvent& evt)
 	if (playerMoving) {
 		CDPRRay ray(_cameraNode->getPosition(), movementVector.normalisedCopy());
 		CDPRRayHitInfo hitInfo;
-		if(EnergiezApp::GetSingletonPtr()->_world->RayCollidingWithAnythingInWorld(ray, hitInfo))
+		if(CDPRGameInstance::GetSingletonPtr()->_world->RayCollidingWithAnythingInWorld(ray, hitInfo))
 		{
 			if (hitInfo.hitdistance <= 1.0f && hitInfo.hitdistance >= 0.0f)
 				collidedWithSomething = true;

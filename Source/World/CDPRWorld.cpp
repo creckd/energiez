@@ -3,7 +3,7 @@
 #include <sstream>
 #include <string>
 #include "fstream"
-#include "Core/EnergiezApp.h"
+#include "Core/CDPRGameInstance.h"
 
 using namespace Ogre;
 
@@ -99,11 +99,11 @@ bool CDPRWorld::RayCollidingWithAnythingInWorld(CDPRRay& ray, CDPRRayHitInfo& hi
 	}
 
 	//Check for terrain collision
-	if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, hitAtDistance))
+	if (CDPRPhysics::RaycastBoxBounds(CDPRGameInstance::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, hitAtDistance))
 	{
 		if (foundAtLeastOneCollision && hitAtDistance <= currentClosestHitDistance || !foundAtLeastOneCollision) {
-			hitInfo.hitBounds[0] = EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds[0];
-			hitInfo.hitBounds[1] = EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds[1];
+			hitInfo.hitBounds[0] = CDPRGameInstance::GetSingletonPtr()->_world->_terrainCollisionBounds[0];
+			hitInfo.hitBounds[1] = CDPRGameInstance::GetSingletonPtr()->_world->_terrainCollisionBounds[1];
 			hitInfo.hitdistance = hitAtDistance;
 			hitInfo.hitPoint = ray.orig + ray.dir.normalisedCopy() * hitInfo.hitdistance;
 			hitInfo.hitObjectType = EHitObjectType::Terrain;
@@ -115,7 +115,7 @@ bool CDPRWorld::RayCollidingWithAnythingInWorld(CDPRRay& ray, CDPRRayHitInfo& hi
 	}
 	
 	//Check for every skyscraper collision
-	for (CDPRSkyScraper* skyScraper : EnergiezApp::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
+	for (CDPRSkyScraper* skyScraper : CDPRGameInstance::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
 		if (CDPRPhysics::RaycastBoxBounds(skyScraper->_boxBoundPoints, ray, hitAtDistance))
 		{
 			if (foundAtLeastOneCollision && hitAtDistance <= currentClosestHitDistance || !foundAtLeastOneCollision) {
@@ -139,13 +139,13 @@ bool CDPRWorld::PointInAnyCollisionBoxInWorld(Vector3 point)
 {
 
 	//Check for terrain collision
-	if (CDPRPhysics::PointInBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, point))
+	if (CDPRPhysics::PointInBoxBounds(CDPRGameInstance::GetSingletonPtr()->_world->_terrainCollisionBounds, point))
 	{
 		return true;
 	}
 
 	//Check for every skyscraper collision
-	for (CDPRSkyScraper* skyScraper : EnergiezApp::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
+	for (CDPRSkyScraper* skyScraper : CDPRGameInstance::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
 		if (CDPRPhysics::PointInBoxBounds(skyScraper->_boxBoundPoints, point))
 		{
 			return true;
@@ -190,7 +190,7 @@ void CDPRWorld::ReadCityDataFromFile()
 
 void CDPRWorld::BuildCity()
 {
-	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
+	SceneManager* sceneManager = CDPRGameInstance::GetSingletonPtr()->_mainSceneManager;
 	SceneNode* cityRootSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode("CityRoot");
 
 	int columns = _cityMatrix.size();
@@ -218,7 +218,7 @@ void CDPRWorld::BuildCity()
 
 void CDPRWorld::BuildTerrain()
 {
-	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
+	SceneManager* sceneManager = CDPRGameInstance::GetSingletonPtr()->_mainSceneManager;
 
 	Plane plane(Vector3::UNIT_Y, 0);
 	MeshManager::getSingleton().createPlane(
@@ -243,7 +243,7 @@ void CDPRWorld::BuildTerrain()
 
 void CDPRWorld::BuildWalls()
 {
-	SceneManager* sceneManager = EnergiezApp::GetSingletonPtr()->_mainSceneManager;
+	SceneManager* sceneManager = CDPRGameInstance::GetSingletonPtr()->_mainSceneManager;
 
 	Ogre::MeshPtr mMesh = MeshManager::getSingleton().load(UnitCubeMeshResource, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 	mMesh->buildEdgeList();

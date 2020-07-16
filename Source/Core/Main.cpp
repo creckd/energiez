@@ -1,8 +1,8 @@
-#include "EnergiezApp.h"
+#include "CDPRGameInstance.h"
 
 int main(int argc, char *argv[])
 {
-	EnergiezApp app;
+	CDPRGameInstance app;
 	app.initApp();
 	app.getRoot()->startRendering();
 	app.closeApp();
