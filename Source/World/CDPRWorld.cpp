@@ -17,10 +17,10 @@ void CDPRWorld::CreateWorld()
 bool CDPRWorld::RayCollidingWithAnythingInWorld(CDPRRay& ray, float& hitAtDistance)
 {
 	//Check for world bounds collision
-	if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_worldCollisionBounds, ray, hitAtDistance))
-	{
-		return true;
-	}
+	//if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_worldCollisionBounds, ray, hitAtDistance))
+	//{
+	//	return true;
+	//}
 
 	//Check for terrain collision
 	if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, hitAtDistance))

@@ -13,9 +13,11 @@ public:
 	CDPRBird(CDPRBirdManager& managerReference, Entity& birdEntity, SceneNode& birdSceneNode);
 	
 	void Initialize();
+	void Kill();
 public:
-	float _terrainCollisionDetectionRange = 15.0f;
-	float _visionDistance = 10.0f;
+	float _terrainCollisionDetectionRange = 10.0f;
+	float _visionDistance = 7.5f;
+	float _redBallDetectionDistance = 60.0f;
 	float _avoidRadius = 5.0f;
 
 	//for Flock calculations
@@ -28,6 +30,7 @@ private:
 	void Destuck();
 	Vector3 FindBestCollisionFreeDirection(bool& headingForCollision);
 	void WatchFlockMates();
+	void WatchForRedBalls();
 	
 private:
 	CDPRBirdManager& _birdManager;
@@ -43,6 +46,7 @@ private:
 	Vector3 _avgFlockHeading = Vector3::ZERO;
 	Vector3 _avgFlockCenter = Vector3::ZERO;
 	Vector3 _seperationHeading = Vector3::ZERO;
+	Vector3 _redBallAvoidance = Vector3::ZERO;
 
 	Vector3 _defaultSpawnPoint = Vector3::ZERO;
 };

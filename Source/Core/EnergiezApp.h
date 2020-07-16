@@ -24,6 +24,7 @@ public:
 	bool mouseMoved(const OgreBites::MouseMotionEvent& evt) override;
 
 	void RegisterFrameListener(FrameListener* newListener);
+	void UnRegisterFrameListener(FrameListener* newListener);
 
 public:
 	SceneManager* _mainSceneManager = nullptr;

@@ -4,6 +4,8 @@
 #include "Physics/CDPRPhysics.h"
 #include "World/CDPRWorld.h"
 #include "Math/CDPRMathHelper.h"
+#include "Player/CDPRPlayerController.h"
+#include "Player/CDPRRedBall.h"
 
 CDPRBird::CDPRBird(CDPRBirdManager& managerReference, Entity& birdEntity, SceneNode& birdSceneNode) : _birdManager(managerReference), _birdEntity(birdEntity), _birdSceneNode(birdSceneNode)
 {
@@ -22,9 +24,20 @@ void CDPRBird::Initialize()
 	_direction = _birdSceneNode.getOrientation() * Vector3::UNIT_Z;
 }
 
+void CDPRBird::Kill()
+{
+	_birdSceneNode.detachAllObjects();
+	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroyEntity(&_birdEntity);
+	EnergiezApp::GetSingletonPtr()->_mainSceneManager->destroySceneNode(&_birdSceneNode);
+	EnergiezApp::GetSingletonPtr()->UnRegisterFrameListener(this);
+	_birdManager._spawnedBirds.erase(std::remove(_birdManager._spawnedBirds.begin(), _birdManager._spawnedBirds.end(), this), _birdManager._spawnedBirds.end());
+	delete this;
+}
+
 bool CDPRBird::frameStarted(const FrameEvent& evt)
 {
 	WatchFlockMates();
+	WatchForRedBalls();
 	Move(evt);
 
 	return true;
@@ -32,16 +45,37 @@ bool CDPRBird::frameStarted(const FrameEvent& evt)
 
 void CDPRBird::Move(const FrameEvent& evt)
 {
-	bool stuck = _birdSceneNode.getPosition().squaredLength() > 5000.0f;
+	bool stuck = _birdSceneNode.getPosition().squaredLength() > 7000.0f;
 	if (stuck)
 		Destuck();
 	
 	if (_numberOfPerceivedFlockMates > 0) {
 		_avgFlockCenter /= (float)_numberOfPerceivedFlockMates;
+
+		CDPRWorld* _world = EnergiezApp::GetSingletonPtr()->_world;
+
+		float hitDistance;
 		
-		_velocity += (_avgFlockCenter - _position).normalisedCopy();
-		_velocity += _avgFlockHeading.normalisedCopy();
-		_velocity += _seperationHeading.normalisedCopy();
+		Vector3 flockCenterForce = (_avgFlockCenter - _position).normalisedCopy();
+		CDPRRay ray(_position, flockCenterForce);
+		flockCenterForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitDistance);
+
+		Vector3 flockHeadingForce = _avgFlockHeading.normalisedCopy();
+		CDPRRay ray2(_position, flockHeadingForce);
+		flockHeadingForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitDistance);
+
+		Vector3 seperationHeadingForce = _seperationHeading.normalisedCopy();
+		CDPRRay ray3(_position, seperationHeadingForce);
+		seperationHeadingForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitDistance);
+
+		Vector3 redBallAvoidanceForce = _redBallAvoidance.normalisedCopy();
+		CDPRRay ray4(_position, redBallAvoidanceForce);
+		redBallAvoidanceForce *= !_world->RayCollidingWithAnythingInWorld(ray, hitDistance);
+		
+		_velocity += flockCenterForce;
+		_velocity += flockHeadingForce;
+		_velocity += seperationHeadingForce;
+		_velocity += redBallAvoidanceForce * 10.0f;
 	}
 
 	bool headingForCollision = false;
@@ -87,7 +121,7 @@ Vector3 CDPRBird::FindBestCollisionFreeDirection(bool& headingForCollisiion)
 {
 	headingForCollisiion = false;
 	
-	int count = sizeof(sizeof(_birdManager._directions) / sizeof(_birdManager._directions[0]));
+	int count = 300;
 	for (int i = 0; i < count; i++)
 	{
 
@@ -107,23 +141,25 @@ Vector3 CDPRBird::FindBestCollisionFreeDirection(bool& headingForCollisiion)
 		}
 
 		//Check for terrain collision
-		if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, distance))
-		{
-			if (distance < _terrainCollisionDetectionRange) {
-				collision = true;
-			}
-		}
+		//if (CDPRPhysics::RaycastBoxBounds(EnergiezApp::GetSingletonPtr()->_world->_terrainCollisionBounds, ray, distance))
+		//{
+		//	if (distance < _terrainCollisionDetectionRange) {
+		//		collision = true;
+		//	}
+		//}
 
 		//Check for every skyscraper collision
 		if (!collision) {
 			for (CDPRSkyScraper* skyScraper : EnergiezApp::GetSingletonPtr()->_world->GetSpawnedSkyScrapers()) {
 				//Quick workaround for Bird bounding box
-				Vector3 extendedBounds[2];
-				extendedBounds[0] = skyScraper->_boxBoundPoints[0];
-				extendedBounds[1] = skyScraper->_boxBoundPoints[1];
-				extendedBounds[0] += (extendedBounds[0] - extendedBounds[1]).normalisedCopy() * 2.0f;
-				extendedBounds[1] += (extendedBounds[1] - extendedBounds[0]).normalisedCopy() * 2.0f;
-				if (CDPRPhysics::RaycastBoxBounds(extendedBounds, ray, distance))
+				//Vector3 extendedBounds[2];
+				//extendedBounds[0] = skyScraper->_boxBoundPoints[0];
+				//extendedBounds[1] = skyScraper->_boxBoundPoints[1];
+				//extendedBounds[0].x += (extendedBounds[0] - extendedBounds[1]).normalisedCopy().x * 4.0f;
+				//extendedBounds[0].z += (extendedBounds[0] - extendedBounds[1]).normalisedCopy().z * 4.0f;
+				//extendedBounds[1].x += (extendedBounds[1] - extendedBounds[0]).normalisedCopy().x * 4.0f;
+				//extendedBounds[1].z += (extendedBounds[1] - extendedBounds[0]).normalisedCopy().z * 4.0f;
+				if (CDPRPhysics::RaycastBoxBounds(skyScraper->_boxBoundPoints, ray, distance))
 				{
 					if (distance < _terrainCollisionDetectionRange) {
 						collision = true;
@@ -171,6 +207,20 @@ void CDPRBird::WatchFlockMates()
 				else
 					_seperationHeading -= (mate->_position - _position) / Math::Clamp(sqrDst,0.1f,100.0f);
 			}
+		}
+	}
+}
+
+void CDPRBird::WatchForRedBalls()
+{
+	_redBallAvoidance = Vector3::ZERO;
+	for(auto ball : EnergiezApp::GetSingletonPtr()->_playerManager->_spawnedBalls)
+	{
+		float sqrDst = _position.squaredDistance(ball->GetPosition());
+
+		if(sqrDst < _redBallDetectionDistance * _redBallDetectionDistance)
+		{
+			_redBallAvoidance += (_position - ball->GetPosition());
 		}
 	}
 }

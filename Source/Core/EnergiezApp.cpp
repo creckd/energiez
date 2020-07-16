@@ -90,3 +90,8 @@ void EnergiezApp::RegisterFrameListener(FrameListener* newListener)
 {
 	getRoot()->addFrameListener(newListener);
 }
+
+void EnergiezApp::UnRegisterFrameListener(FrameListener* newListener)
+{
+	getRoot()->removeFrameListener(newListener);
+}
