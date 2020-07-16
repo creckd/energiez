@@ -334,7 +334,7 @@ material Examples/DynamicCubeMap
 	}
 }
 
-material Examples/CloudySky
+material CloudySky
 {
 	technique
 	{

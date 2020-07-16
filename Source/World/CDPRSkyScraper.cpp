@@ -82,7 +82,7 @@ void CDPRSkyScraper::Update(float deltaTime)
 					DestroyBlock(_currentBlockAnimated);
 				}
 				_currentlyAnimatingABlock = false;
-				UpdateCollisionBoundingBox();
+				//UpdateCollisionBoundingBox();
 			}
 		} else
 		{

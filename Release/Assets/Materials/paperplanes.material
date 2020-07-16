@@ -4,8 +4,8 @@ material paperplanes
        {
            pass
            {
-               ambient 0.0 0.0 0.0
-               diffuse 0.0 0.0 0.0
+               ambient 0.75 0.75 0.25
+               diffuse 1.0 1.0 0.0
                emissive 0.0 0.0 0.0 1
                //specular 0 0 0
            }

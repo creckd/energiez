@@ -20,7 +20,7 @@ void CDPRBirdManager::SpawnBird(Vector3 spawnPosiiton)
 {
 	Ogre::Entity* spawnedBirdEntity = _mainSceneManager->createEntity(_birdMeshResource);
 	spawnedBirdEntity->setMaterialName(BirdMaterialResource);
-	spawnedBirdEntity->setCastShadows(true);
+	spawnedBirdEntity->setCastShadows(false);
 
 	SceneNode* spawnedSceneNode = _birdRootNode->createChildSceneNode();
 

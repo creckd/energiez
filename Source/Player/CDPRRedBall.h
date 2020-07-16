@@ -23,6 +23,7 @@ public:
 	float _velocityMagnitudeToKillAt = 0.1f;
 	float _growthAmountPerKill = 0.05f;
 	float _chargeSpeed = 5.0f;
+	float _maxSpeed = 15.0f;
 private:
 	float _initialVelocityPreference = 1.0f;
 	int _numberOfBirdConsumed = 0;

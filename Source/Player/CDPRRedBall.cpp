@@ -56,6 +56,13 @@ void CDPRRedBall::Update(float deltaTime)
 				_velocity += (closestBird->_position - _projectileNode->getPosition()).normalisedCopy() * deltaTime * _chargeSpeed * (1.0f - _initialVelocityPreference);
 		}
 
+		//Clamp to max speed
+		if (_velocity.squaredLength() > _maxSpeed * _maxSpeed)
+		{
+			_velocity.normalise();
+			_velocity *= _maxSpeed;
+		}
+
 		_projectileNode->setScale(Vector3::UNIT_SCALE + _numberOfBirdConsumed * _growthAmountPerKill);
 
 		_initialVelocityPreference = Math::Clamp(_initialVelocityPreference - deltaTime, 0.0f, 1.0f);

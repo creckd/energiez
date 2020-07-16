@@ -27,8 +27,8 @@ void CDPRCameraController::Initialize()
 
 void CDPRCameraController::MouseInput(float x, float y)
 {
-	_cameraYawNode->yaw(Radian(x));
-	_cameraPitchNode->pitch(Radian(y));
+	_cameraYawNode->yaw(Radian(x * _mouseSensitivity));
+	_cameraPitchNode->pitch(Radian(y * _mouseSensitivity));
 }
 
 bool CDPRCameraController::frameStarted(const FrameEvent& evt)

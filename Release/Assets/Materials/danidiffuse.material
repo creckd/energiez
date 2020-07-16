@@ -4,8 +4,8 @@ material danidiffuse
        {
            pass
            {
-               ambient 0.75 0.75 0.75
-               diffuse 0.75 0.75 0.75
+               ambient 0.1 0.1 0.1
+               diffuse 0.2 0.2 0.2
                emissive 0.0 0.0 0.0 1
                specular 1 1 1
            }

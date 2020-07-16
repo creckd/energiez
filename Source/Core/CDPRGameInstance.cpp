@@ -28,7 +28,7 @@ void CDPRGameInstance::setup()
 
 	_mainSceneManager = root->createSceneManager();
 
-	_mainSceneManager->setSkyDome(true, "Examples/CloudySky", 5, 8);
+	_mainSceneManager->setSkyDome(true, "CloudySky", 5, 8);
 
 	_mainSceneManager->setAmbientLight(ColourValue(1, 1, 1));
 	_mainSceneManager->setShadowTechnique(ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);

@@ -28,6 +28,8 @@ public:
 	float _runningHeadBobAmount = 0.05f;
 	float _runningHeadBobSpeed = 20.0f;
 
+	float _mouseSensitivity = 0.3f;
+
 private:
 	Camera* _mainCamera = nullptr;
 	SceneNode* _cameraNode = nullptr;

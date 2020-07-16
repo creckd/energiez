@@ -4,8 +4,8 @@ material ground
        {
            pass
            {
-               ambient 0.35 0.35 0.35
-               diffuse 0.35 0.35 0.35
+               ambient 0.25 0.25 0.25
+               diffuse 0.25 0.25 0.25
                emissive 0.0 0.0 0.0 1
                //specular 0 0 0
            }
