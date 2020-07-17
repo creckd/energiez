@@ -24,7 +24,7 @@ public:
 	float _wallWidth = 10.0f;
 	float _wallHeight = 5.0f;
 
-	float _mapRoofHeightInWorldPosition = 100.0f;
+	float _mapRoofHeightInWorldPosition = 50.0f;
 	
 	int _terrainSubdivision = 20;
 
