@@ -15,7 +15,7 @@ void CDPRCameraController::Initialize()
 	_cameraRollNode = _cameraPitchNode->createChildSceneNode("MainCameraRoll");
 
 	_mainCamera = sceneManager->createCamera("MainCamera");
-	_mainCamera->setNearClipDistance(0.01f); // specific to this sample
+	_mainCamera->setNearClipDistance(0.01f);
 	_mainCamera->setAutoAspectRatio(true);
 	
 	_cameraRollNode->attachObject(_mainCamera);
