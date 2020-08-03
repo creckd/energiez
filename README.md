@@ -1,2 +1,2 @@
 # energiez
-CD Projekt Red Task
+Boid simulation w Ogre
